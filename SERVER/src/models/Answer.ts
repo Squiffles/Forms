@@ -21,7 +21,7 @@ class AnswerClass extends Model<AnswerAttributes> implements AnswerAttributes {
     public preferred_language!: string;
     public how_found!: string;
     public newsletter_subscription?: boolean | undefined;
-}
+};
 
 const initAnswer: Function = (sequelize: Sequelize) => {
     AnswerClass.init(

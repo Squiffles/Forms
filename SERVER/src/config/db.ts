@@ -4,6 +4,7 @@ import path from 'path';
 import { Sequelize } from 'sequelize';
 import { config } from 'dotenv';
 import { initAnswer } from '../models/Answer';
+import { initUser } from '../models/User';
 
 config({ path: path.resolve(__dirname, '../.env') });
 
@@ -30,10 +31,22 @@ const sequelize: Sequelize = new Sequelize(`${POSTGRES_DATA_BASE_URL}`, {
 // Store all the models initializators in an array so it can be used later to pass the sequelize instance to each initializator.
 const modelInitializators: Function[] = [
     initAnswer,
+    initUser
 ];
 
 // Here the array previously filled is used to pass each of its values the sequelize instance.
 modelInitializators.forEach((model: Function) => model(sequelize));
+
+const { Answer, User } = sequelize.models;
+
+// --------------- ASSOCIATIONS ---------------
+User.hasMany(Answer, {
+    foreignKey: {
+        name: "user_id",
+        allowNull: true
+    },
+});
+Answer.belongsTo(User, { foreignKey: "user_id" });
 
 
 const db = {

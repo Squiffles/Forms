@@ -13,7 +13,25 @@ interface handlerResponseAnswer extends handlerResponseBase {
     data?: AnswerAttributes[];  // The data exist only if the success is set to true.
 };
 
+interface handlerResponseUser {
+    success: boolean;
+    error?: {
+        type: string;
+        message: string
+    };
+    data?: any
+}
 
+const errorTypes = {
+    NO_FOUND: "noFound",
+    INVALID: "invalid",
+    EXISTENT: "existent"
+}
+
+
+// --------------- EXPORTS ---------------
 export {
-    handlerResponseAnswer
+    handlerResponseAnswer,
+    handlerResponseUser,
+    errorTypes
 };

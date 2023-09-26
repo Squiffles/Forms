@@ -52,8 +52,8 @@ const DB_postAnswer = async (data: any) => {
             success: false,
             error: `Error while creating "answer" in the DB: ${error}`
         };
-    }
-}
+    };
+};
 
 
 // --------------- EXPORTS ---------------

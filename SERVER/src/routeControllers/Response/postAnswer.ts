@@ -1,7 +1,6 @@
 // --------------- IMPORTS ---------------
 import { Request, Response } from "express";
 import { DB_postAnswer } from "../_handlers/answer";
-import { handlerResponseAnswer } from "../_handlers/_handlerResponseTypes";
 
 
 // --------------- CONTROLLER ---------------
