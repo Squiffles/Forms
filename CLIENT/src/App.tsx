@@ -8,7 +8,7 @@ function App() {
     // COMPONENT:
     return (
         <main className="bg-black min-w-full">
-            
+            <input type='tel' />
         </main>
     );
 };

@@ -16,11 +16,11 @@ const db: Sequelize = new Sequelize(`${POSTGRES_DATA_BASE_URL}`, {
     native: false,
 
     // for deploy:
-    // dialectOptions: {
-    //     ssl: {
-    //         require: true,
-    //     }
-    // }
+    dialectOptions: {
+        ssl: {
+            require: true,
+        }
+    }
 });
 
 
