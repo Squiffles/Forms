@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import express, { Request, Response, Application, NextFunction } from "express";
 import cors from 'cors';
-// import router from "../routes/index";
+import indexRouter from "../routes/index";
 
 
 // --------------- CODE ---------------
@@ -13,7 +13,7 @@ server.use(cors());
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
 server.use(morgan("dev"));
-// server.use("/", router);
+server.use("/", indexRouter);
 
 
 server.use((err: Error, req: Request, res: Response, next: NextFunction) => {

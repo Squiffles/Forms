@@ -10,7 +10,7 @@ import server from "./config/server";
 config({ path: path.resolve(__dirname, './.env') });
 const { LOCAL_SERVER_PORT } = process.env;
 
-db.sync({ force: false })
+db.sequelize.sync({ force: false })
     .then(() => {
         server.listen(LOCAL_SERVER_PORT, () => {
             console.log(`Server listening to port: ${LOCAL_SERVER_PORT}`);

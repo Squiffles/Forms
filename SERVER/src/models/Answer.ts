@@ -3,8 +3,8 @@ import { Sequelize, Model, DataTypes } from "sequelize";
 
 
 // --------------- MODEL ---------------
-interface ResponseAttributes {
-    response_id: number;
+interface AnswerAttributes {
+    answer_id: number;
     full_name: string;
     phone_number: string;
     start_date?: string;
@@ -13,8 +13,8 @@ interface ResponseAttributes {
     newsletter_subscription?: boolean;
 };
 
-class ResponseClass extends Model<ResponseAttributes> implements ResponseAttributes {
-    public response_id!: number;
+class AnswerClass extends Model<AnswerAttributes> implements AnswerAttributes {
+    public answer_id!: number;
     public full_name!: string;
     public phone_number!: string;
     public start_date?: string | undefined;
@@ -23,12 +23,12 @@ class ResponseClass extends Model<ResponseAttributes> implements ResponseAttribu
     public newsletter_subscription?: boolean | undefined;
 }
 
-const initResponse: Function = (sequelize: Sequelize) => {
-    ResponseClass.init(
+const initAnswer: Function = (sequelize: Sequelize) => {
+    AnswerClass.init(
         {
-            response_id: {
+            answer_id: {
                 primaryKey: true,
-                type: DataTypes.NUMBER,
+                type: DataTypes.INTEGER,
                 allowNull: false,
                 autoIncrement: true,
                 unique: true
@@ -60,15 +60,15 @@ const initResponse: Function = (sequelize: Sequelize) => {
         },
         {
             sequelize,
-            modelName: "Currency",
-            tableName: "currencies",
+            modelName: "Answer",
+            tableName: "answers",
             timestamps: false,
             freezeTableName: true
         }
     );
-    return CurrencyClass;
+    return AnswerClass;
 };
 
 
-
 // --------------- EXPORTS ---------------
+export { initAnswer, AnswerAttributes };
