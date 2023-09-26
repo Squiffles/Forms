@@ -31,5 +31,33 @@ const DB_findAllAnswers = async (): Promise<handlerResponseAnswer> => {
 };
 
 
+const DB_postAnswer = async (data: any) => {
+    try {
+        const ANSWER = db.sequelize.models.Answer;
+        const DB_newAnswer = await ANSWER.create(data);
+
+        console.log(DB_newAnswer);
+
+        return {
+            success: true,
+            data: DB_newAnswer
+        }
+
+    } catch (error) {
+        // DEV:
+        console.log(`Error while creating "answer" in the DB: ${error}`);
+        throw new Error(`Error while creating "answer" in the DB: ${error}`);
+        // PRODUCTION:
+        return {
+            success: false,
+            error: `Error while creating "answer" in the DB: ${error}`
+        };
+    }
+}
+
+
 // --------------- EXPORTS ---------------
-export { DB_findAllAnswers };
+export {
+    DB_findAllAnswers,
+    DB_postAnswer
+};

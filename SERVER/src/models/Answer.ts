@@ -46,11 +46,11 @@ const initAnswer: Function = (sequelize: Sequelize) => {
                 allowNull: true
             },
             preferred_language: {
-                type: DataTypes.STRING,
+                type: DataTypes.ENUM("english, spanish, french, german"),
                 allowNull: false
             },
             how_found: {
-                type: DataTypes.STRING,
+                type: DataTypes.ENUM("friends", "online_search", "advertisement"),
                 allowNull: false
             },
             newsletter_subscription: {
