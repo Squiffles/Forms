@@ -4,6 +4,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css'
 import Root from './components/Pages/Root';
 import HomePage from './components/Pages/Homepage';
+import Form from './components/Pages/Form';
+import Success from './components/Pages/Success';
+import Answers from './components/Pages/Answers';
 import ErrorPage from './components/Pages/Error';
 
 
@@ -21,6 +24,18 @@ const router = createBrowserRouter([
                 path: "/",
                 element: <HomePage />
             },
+            {
+                path: "/form",
+                element: <Form />
+            },
+            {
+                path: "/success",
+                element: <Success />
+            },
+            {
+                path: "/answers",
+                element: <Answers />
+            }
         ],
         errorElement: <ErrorPage />
     },

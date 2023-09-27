@@ -4,12 +4,12 @@
 
 @font-face {
     font-family: "Regular";
-    src: url(../public/fonts/Regular.otf);
+    src: url(../fonts/Regular.otf);
 }
 
 @font-face {
     font-family: "Ultrabold";
-    src: url(../public/fonts/Ultrabold.otf);
+    src: url(../fonts/Ultrabold.otf);
 }
 
 :root {
