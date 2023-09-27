@@ -8,7 +8,7 @@ import postAnswer from "../routeControllers/Response/postAnswer";
 const answerRouter = Router();
 
 answerRouter.get("/", getAllAnswers);
-answerRouter.post("/submitted", postAnswer);
+answerRouter.post("/submit", postAnswer);
 
 
 // --------------- EXPORTS ---------------

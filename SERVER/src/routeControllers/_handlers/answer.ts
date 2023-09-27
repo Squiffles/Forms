@@ -23,10 +23,10 @@ const DB_findAllAnswers = async (): Promise<handlerResponseAnswer> => {
         console.log(`Error while fetching "answers" from the DB: ${error}`);
         throw new Error(`Error while fetching "answers" from the DB: ${error}`);
         // PRODUCTION:
-        return {
-            success: false,
-            error: `Error while fetching "answers" from the DB: ${error}`
-        };
+        // return {
+        //     success: false,
+        //     error: `Error while fetching "answers" from the DB: ${error}`
+        // };
     };
 };
 

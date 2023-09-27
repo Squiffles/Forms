@@ -40,13 +40,13 @@ modelInitializators.forEach((model: Function) => model(sequelize));
 const { Answer, User } = sequelize.models;
 
 // --------------- ASSOCIATIONS ---------------
-User.hasMany(Answer, {
-    foreignKey: {
-        name: "user_id",
-        allowNull: true
-    },
-});
-Answer.belongsTo(User, { foreignKey: "user_id" });
+// User.hasMany(Answer, {
+//     foreignKey: {
+//         name: "user_id",
+//         allowNull: true
+//     },
+// });
+// Answer.belongsTo(User, { foreignKey: "user_id" });
 
 
 const db = {
