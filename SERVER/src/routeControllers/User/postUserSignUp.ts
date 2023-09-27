@@ -1,18 +1,18 @@
 // --------------- IMPORTS ---------------
 import { Request, Response } from "express";
-import { DB_postUser } from "../_handlers/user";
+import { DB_createUser } from "../_handlers/user";
 import { handlerResponseUser, errorTypes } from "../_handlers/_handlerResponseTypes";
 
 
 // --------------- CONTROLLER ---------------
-const postUser = async (req: Request, res: Response): Promise<Response> => {
+const postUserSignUp = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { email, password } = req.body;
 
-        const response: handlerResponseUser = await DB_postUser({ email, password });
+        const response: handlerResponseUser = await DB_createUser({ email, password });
 
         if (response.success) {
-            // Expecting DB_postUser to return a data property with the expected output, we only look for success and infer data is the new user created.
+            // Expecting DB_createUser to return a data property with the expected output, we only look for success and infer data is the new user created.
             return res.status(200).json(response);
 
         } else if (!response.success && response.error?.type === errorTypes.EXISTENT) {
@@ -33,4 +33,4 @@ const postUser = async (req: Request, res: Response): Promise<Response> => {
 
 
 // --------------- EXPORTS ---------------
-export default postUser;
+export default postUserSignUp;

@@ -8,7 +8,7 @@ import { handlerResponseUser, errorTypes } from "../_handlers/_handlerResponseTy
 
 
 // --------------- CONTROLLER ---------------
-const DB_postUser = async (data: any): Promise<handlerResponseUser> => {
+const DB_createUser = async (data: any): Promise<handlerResponseUser> => {
     // email and password.
     try {
         const { email, password } = data;
@@ -132,6 +132,6 @@ const _postUserLogin = async (data: any): Promise<handlerResponseUser> => {
 
 // --------------- EXPORTS ---------------
 export {
-    DB_postUser,
+    DB_createUser,
     _postUserLogin
 };

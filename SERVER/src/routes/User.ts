@@ -1,6 +1,6 @@
 // --------------- IMPORTS ---------------
 import { Router } from "express";
-import postUser from "../routeControllers/User/postUser";
+import postUserSignUp from "../routeControllers/User/postUserSignUp";
 import postUserLogin from "../routeControllers/User/postUserLogin";
 
 
@@ -8,7 +8,7 @@ import postUserLogin from "../routeControllers/User/postUserLogin";
 const userRouter = Router();
 
 userRouter.get("/");
-userRouter.post("/create", postUser);
+userRouter.post("/signup", postUserSignUp);
 userRouter.post("/login", postUserLogin);
 
 
