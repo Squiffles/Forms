@@ -9,6 +9,9 @@ const indexRouter = Router();
 
 indexRouter.use("/answer", answerRouter);
 indexRouter.use("/user", userRouter);
+indexRouter.get("/", ((_req, res) => {
+    return res.status(200).send("It's working.");
+}));
 
 
 // --------------- EXPORTS ---------------
