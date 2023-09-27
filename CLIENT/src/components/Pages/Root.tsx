@@ -6,14 +6,9 @@ import { Outlet } from "react-router-dom";
 function Root() {
 
 
-    // VARIABLES:
-    const route: string = "root";
-
-
     // ELEMENT:
     return (
         <>
-            {/* <Header route={route} /> */}
             <Outlet />
         </>
     );
