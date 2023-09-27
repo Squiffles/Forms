@@ -1,8 +1,19 @@
 // --------------- IMPORTS ---------------
+import { useEffect } from "react";
+import { getAllAnswers } from "../../services/requests/answer";
+
 
 
 // --------------- COMPONENT ---------------
 function Answers() {
+
+
+    useEffect(() => {
+        (async() => {
+            const data = await getAllAnswers();
+            console.log(data);
+        })()
+    }, []);
 
 
     // COMPONENT:

@@ -9,8 +9,9 @@ import App from './App.tsx';
 
 
 // --------------- AXIOS BASE URL ---------------
-const baseURL: string = "http://localhost:3001";
-axios.defaults.baseURL = baseURL;
+// const baseURL: string = "http://localhost:3001";
+const SERVER_URL: string = "https://forms-server-ar6n.onrender.com";
+axios.defaults.baseURL = SERVER_URL;
 
 
 // --------------- VDOM ---------------
