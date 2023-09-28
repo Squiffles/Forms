@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 // --------------- REQUESTS ---------------
-const getAllAnswers = async (): Promise<any> => {
+const getAllAnswersRequest = async (): Promise<any> => {
     try {
         const { data } = await axios.get("answer");
 
@@ -25,7 +25,7 @@ const getAllAnswers = async (): Promise<any> => {
 };
 
 
-const postAnswer = async (answer: any): Promise<any> => {
+const postAnswerRequest = async (answer: any): Promise<any> => {
     try {
         const { data } = await axios.post(answer);
         console.log(data)
@@ -50,6 +50,6 @@ const postAnswer = async (answer: any): Promise<any> => {
 
 // --------------- EXPORTS ---------------
 export {
-    getAllAnswers,
-    postAnswer
+    getAllAnswersRequest,
+    postAnswerRequest
 };

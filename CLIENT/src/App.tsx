@@ -6,7 +6,7 @@ import Root from './components/Pages/Root';
 import HomePage from './components/Pages/Homepage';
 import Form from './components/Pages/Form';
 import Success from './components/Pages/Success';
-import Answers from './components/Pages/Answers';
+import Results from './components/Pages/Results';
 import ErrorPage from './components/Pages/Error';
 
 
@@ -33,8 +33,8 @@ const router = createBrowserRouter([
                 element: <Success />
             },
             {
-                path: "/answers",
-                element: <Answers />
+                path: "/results",
+                element: <Results />
             }
         ],
         errorElement: <ErrorPage />

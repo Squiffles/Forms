@@ -1,18 +1,25 @@
 // --------------- IMPORTS ---------------
 import { useEffect } from "react";
-import { getAllAnswers } from "../../services/requests/answer";
-
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { getAllAnswers } from "../../redux/rootReducer";
 
 
 // --------------- COMPONENT ---------------
-function Answers() {
+function Results() {
 
 
+    // GLOBAL STATES:
+    const reduxAnswers = useAppSelector((state) => state.root.answers.data);
+
+
+    // CONST:
+    const dispatch = useAppDispatch();
+
+
+    // LIFE CYCLES:
     useEffect(() => {
-        (async() => {
-            const data = await getAllAnswers();
-            console.log(data);
-        })()
+        dispatch(getAllAnswers());
+        console.log(reduxAnswers);
     }, []);
 
 
@@ -39,8 +46,25 @@ function Answers() {
                     <h2 className="text-[4rem]">Review<br />other<br />inputs</h2>
                 </div>
             </div>
-            <section>
-
+            <section className="flex justify-center items-start w-full">
+                {
+                    reduxAnswers === null ? (
+                        null
+                    ) : (
+                        reduxAnswers.map((answer) => {
+                            return (
+                                <div className="">
+                                    <p>{answer.full_name}</p>
+                                    <p>{answer.phone_number}</p>
+                                    <p>{answer.start_date}</p>
+                                    <p>{answer.preferred_language}</p>
+                                    <p>{answer.how_found}</p>
+                                    <p>{answer.newsletter_subscription}</p>
+                                </div>
+                            )
+                        })
+                    )
+                }
             </section>
         </main>
     );
@@ -48,4 +72,4 @@ function Answers() {
 
 
 // --------------- EXPORTS ---------------
-export default Answers;
+export default Results;
