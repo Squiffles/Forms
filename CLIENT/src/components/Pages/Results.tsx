@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { getAllAnswers } from "../../redux/rootReducer";
+import { items } from "../../services/data.json";
 
 
 // --------------- COMPONENT ---------------
@@ -46,26 +47,34 @@ function Results() {
                     <h2 className="text-[4rem]">Review<br />other<br />inputs</h2>
                 </div>
             </div>
-            <section className="flex justify-center items-start w-full">
-                {
-                    reduxAnswers === null ? (
-                        null
-                    ) : (
-                        reduxAnswers.map((answer) => {
-                            return (
-                                <div className="">
-                                    <p>{answer.full_name}</p>
-                                    <p>{answer.phone_number}</p>
-                                    <p>{answer.start_date}</p>
-                                    <p>{answer.preferred_language}</p>
-                                    <p>{answer.how_found}</p>
-                                    <p>{answer.newsletter_subscription}</p>
-                                </div>
-                            )
-                        })
-                    )
-                }
-            </section>
+            <div className="flex justify-center w-full">
+                <section className="grid grid-cols-3 gap-7 mx-[auto] w-[90%] scree">
+                    {
+                        reduxAnswers === null ? (
+                            null
+                        ) : (
+                            reduxAnswers.map((answer) => {
+                                return (
+                                    <div className="flex flex-1 flex-col p-10 border border-black rounded-xl">
+                                        <label>{items[0].label}</label>
+                                        <p className="text-[calc(2rem+1vw)]">{answer.full_name}</p>
+                                        <label className="mt-4">{items[1].label}</label>
+                                        <p className="text-[calc(2rem+1vw)]">{answer.phone_number}</p>
+                                        <label className={`mt-4 ${answer.start_date === null ? 'line-through' : ''}`}>{items[2].label}</label>
+                                        <p className="text-[calc(2rem+1vw)]">{answer.start_date !== null ? answer.start_date : null}</p>
+                                        <label className="mt-4">{items[3].label}</label>
+                                        <p className="text-[calc(2rem+1vw)]">{answer.preferred_language}</p>
+                                        <label className="mt-4">{items[4].label}</label>
+                                        <p className="text-[calc(2rem+1vw)]">{answer.how_found}</p>
+                                        <label className={`mt-4 ${answer.newsletter_subscription === null ? 'line-through' : ''}`}>{items[5].label}</label>
+                                        <p className="text-[calc(2rem+1vw)]">{answer.newsletter_subscription !== null ? (answer.newsletter_subscription === true ? "Sí" : "No") : null}</p>
+                                    </div>
+                                )
+                            })
+                        )
+                    }
+                </section>
+            </div>
         </main>
     );
 };
