@@ -30,8 +30,17 @@ const DB_findAllAnswers = async (): Promise<handlerResponseAnswer> => {
     };
 };
 
+type Answer = {
+    session_id: string,
+    full_name: string,
+    phone_number: string,
+    start_date?: string,
+    preferred_language: string,
+    how_found: string,
+    newsletter_subscription?: boolean
+}
 
-const DB_postAnswer = async (data: any) => {
+const DB_postAnswer = async (data: Answer) => {
     try {
         const ANSWER = db.sequelize.models.Answer;
         const DB_newAnswer = await ANSWER.create(data);
@@ -41,7 +50,7 @@ const DB_postAnswer = async (data: any) => {
         return {
             success: true,
             data: DB_newAnswer
-        }
+        };
 
     } catch (error) {
         // DEV:

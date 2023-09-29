@@ -5,6 +5,7 @@ import { Sequelize, Model, DataTypes } from "sequelize";
 // --------------- MODEL ---------------
 interface AnswerAttributes {
     answer_id: number;
+    session_id: string;
     full_name: string;
     phone_number: string;
     start_date?: string;
@@ -15,12 +16,13 @@ interface AnswerAttributes {
 
 class AnswerClass extends Model<AnswerAttributes> implements AnswerAttributes {
     public answer_id!: number;
+    public session_id !: string;
     public full_name!: string;
     public phone_number!: string;
-    public start_date?: string | undefined;
+    public start_date?: string;
     public preferred_language!: string;
     public how_found!: string;
-    public newsletter_subscription?: boolean | undefined;
+    public newsletter_subscription?: boolean;
 };
 
 const initAnswer: Function = (sequelize: Sequelize) => {
@@ -33,6 +35,10 @@ const initAnswer: Function = (sequelize: Sequelize) => {
                 autoIncrement: true,
                 unique: true
             },
+            session_id: {
+                type: DataTypes.UUID,
+                allowNull: false
+            } ,
             full_name: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -46,7 +52,7 @@ const initAnswer: Function = (sequelize: Sequelize) => {
                 allowNull: true
             },
             preferred_language: {
-                type: DataTypes.ENUM("english, spanish, french, german"),
+                type: DataTypes.ENUM("english", "spanish", "french", "german"),
                 allowNull: false
             },
             how_found: {

@@ -1,5 +1,6 @@
 // --------------- IMPORTS ---------------
 import { Request, Response } from "express";
+import { v4 as uuidv4 } from 'uuid';
 import { DB_postAnswer } from "../_handlers/answer";
 
 
@@ -8,7 +9,10 @@ const postAnswer = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { full_name, phone_number, start_date, preferred_language, how_found, newsletter_subscription } = req.body;
 
-        const response = await DB_postAnswer({ full_name, phone_number, start_date, preferred_language, how_found, newsletter_subscription });
+        // Generate the session_id:
+        const session_id: string = uuidv4();
+
+        const response = await DB_postAnswer({ session_id, full_name, phone_number, start_date, preferred_language, how_found, newsletter_subscription });
 
         if (response.success) {
             // Expecting DB_postAnswer to return a data property with the expected output, we only look for success and infer data is the new answer submitted.
