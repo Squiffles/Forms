@@ -2,7 +2,19 @@
 import { useState, useEffect } from "react";
 import { items } from "../../services/data.json";
 import { postAnswerRequest } from "../../services/requests/answer";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+import validateAnswer from "../../services/validator";
 
+
+export type Answer = {
+    name: string;
+    phoneNumber: string;
+    startDate?: string | null;
+    preferredLanguage: string;
+    howFound: string;
+    newsletter_subscription?: boolean | null
+};
 
 // --------------- COMPONENT ---------------
 function Form() {
@@ -15,15 +27,6 @@ function Form() {
     const HOW_FOUND = items[4];
     const NEWSLETTER_SUBSCRIPTION = items[5];
 
-    type Answer = {
-        name: string;
-        phoneNumber: string;
-        startDate?: string | null;
-        preferredLanguage: string;
-        howFound: string;
-        newsletter_subscription?: boolean | null
-    };
-
     // LOCAL STATES:
     const [answer, setAnswer] = useState<Answer>({
         name: "",
@@ -34,38 +37,66 @@ function Form() {
         newsletter_subscription: null
     });
 
+    const [isValid, setIsValid] = useState(false);
+
+    const [errors, setErrors] = useState({
+        nameError: "",
+        phoneNumberError: "",
+        startDateError: "",
+        preferredLanguageError: "",
+        howFoundError: "",
+        newsletter_subscription: ""
+    });
+
+    const [requiredFieldsErrors, setRequiredFieldsErrors] = useState({
+        nameError: "",
+        phoneNumberError: "",
+        preferredLanguageError: "",
+        howFoundError: ""
+    });
+
 
     // FUNCTIONS:
     const handleSubmit = (event: any) => {
         event.preventDefault();
 
         // Check if the answer is filled before making the post request.
-        // if (answer)
-        // postAnswerRequest(answer);
+        if (isValid) postAnswerRequest(answer);
     };
 
 
     type inputSort = "NAME" | "PHONE_NUMBER" | "START_DATE" | "PREFERRED_LANGUAGE" | "HOW_FOUND" | "NEWSLETTER_SUBSCRIPTION";
     const handleInputChange = (event: any, sort: inputSort) => {
-        let VALUE = event.target.value;
+        // let VALUE = event.target.value;
 
-        sort === "NAME" && setAnswer({ ...answer, name: VALUE });
-        sort === "PHONE_NUMBER" && setAnswer({ ...answer, phoneNumber: VALUE });
-        sort === "START_DATE" && setAnswer({ ...answer, startDate: VALUE });
-        sort === "PREFERRED_LANGUAGE" && setAnswer({ ...answer, preferredLanguage: VALUE });
-        sort === "HOW_FOUND" && setAnswer({ ...answer, howFound: VALUE });
-        sort === "NEWSLETTER_SUBSCRIPTION" && (
-            VALUE = event.target.checked ? true : null,
-            setAnswer({ ...answer, newsletter_subscription: VALUE })
-        );
+        sort === "NAME" && setAnswer({ ...answer, name: event.target.value });
+        // In the phone number case, with the PhoneInput tag, the newNumber is passed directly as parameter, so I just set event as phoneNumber.
+        sort === "PHONE_NUMBER" && setAnswer({ ...answer, phoneNumber: event });
+        sort === "START_DATE" && setAnswer({ ...answer, startDate: event.target.value });
+        sort === "PREFERRED_LANGUAGE" && setAnswer({ ...answer, preferredLanguage: event.target.value });
+        sort === "HOW_FOUND" && setAnswer({ ...answer, howFound: event.target.value });
+        sort === "NEWSLETTER_SUBSCRIPTION" && (setAnswer({ ...answer, newsletter_subscription: event.target.checked ? true : null }));
 
         return;
     };
 
     useEffect(() => {
-        console.log(answer);
-    }, [answer])
+        const { errors, requiredFieldsErrors } = validateAnswer(answer);
+        setErrors(errors);
+        setRequiredFieldsErrors(requiredFieldsErrors);
+    }, [answer]);
 
+    useEffect(() => {
+        const requiredFieldsErrorsAreEmpty = Object.values(requiredFieldsErrors).every(value => value === "")
+        const errorsAreEmpty = Object.values(errors).every(value => value === "");
+        if (errorsAreEmpty && requiredFieldsErrorsAreEmpty) {
+            setIsValid(true);
+        } else setIsValid (false);
+    }, [errors, requiredFieldsErrors]);
+
+    useEffect(() => {
+        console.log(isValid)
+    }, [isValid])
 
     // ELEMENT:
     return (
@@ -74,7 +105,7 @@ function Form() {
                 <span>INPUT</span><span>IT</span>
             </header>
             <form
-                className="flex flex-col gap-[5rem] w-[70%] mt-[5%] border-black rounded-[0.5rem]"
+                className="flex flex-col gap-[5rem] w-[70%] mt-[5%]"
                 onSubmit={handleSubmit}
             >
                 {/* 1) NAME */}
@@ -91,9 +122,11 @@ function Form() {
                             type={NAME.type}
                             onChange={(e) => handleInputChange(e, "NAME")}
                             required={NAME.required}
+                            spellCheck={false}
                         />
                         <div className="absolute w-full h-1 bg-black" />
                     </div>
+                    <p>{errors.nameError}</p>
                 </section>
                 {/* 2) PHONE NUMBER */}
                 <section className="flex flex-col justify-start">
@@ -104,14 +137,16 @@ function Form() {
                     }
                     <label className="text-[1.5rem]">{PHONE_NUMBER.label}</label>
                     <div className="relative w-full mt-4">
-                        <input
-                            className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
+                        <PhoneInput
+                            className="w-full bg-transparent outline-none text-[3rem] leading-[1]"
                             type={PHONE_NUMBER.type}
-                            onChange={(e) => handleInputChange(e, "PHONE_NUMBER")}
+                            value={answer.phoneNumber}
+                            onChange={(newNumber) => handleInputChange(newNumber, "PHONE_NUMBER")}
                             required={PHONE_NUMBER.required}
                         />
                         <div className="absolute w-full h-1 bg-black" />
                     </div>
+                    <p>{errors.phoneNumberError}</p>
                 </section>
                 {/* 3) START DATE */}
                 <section className="flex flex-col justify-start">
@@ -131,13 +166,16 @@ function Form() {
                             id="start_date"
                             className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
                             type={START_DATE.type}
+                            min="2000-01-01"
+                            max="2050-12-31"
                             onChange={(e) => handleInputChange(e, "START_DATE")}
                             required={START_DATE.required}
                         />
                         <div className="absolute w-full h-1 bg-black" />
                     </div>
+                    <p>{errors.startDateError}</p>
                 </section>
-                {/* 4) PREERRED LANGUAGE */}
+                {/* 4) PREFERRED LANGUAGE */}
                 <section className="flex flex-col justify-start">
                     {
                         PREFERRED_LANGUAGE.required ? (
@@ -165,6 +203,7 @@ function Form() {
                         </select>
                         <div className="absolute w-full h-1 bg-black" />
                     </div>
+                    <p>{errors.preferredLanguageError}</p>
                 </section>
                 {/* 5) HOW FOUND */}
                 <section className="flex flex-col justify-start">
@@ -192,7 +231,7 @@ function Form() {
                                         required={items[4].required}
                                     />
                                     <label
-                                        className="text-[6rem]"
+                                        className="text-[6rem] ml-4"
                                         htmlFor={`option_${index}`}
                                     >
                                         {option.label}
@@ -200,6 +239,7 @@ function Form() {
                                 </span>
                             ))
                         }
+                        <p>{errors.howFoundError}</p>
                     </div>
                 </section>
                 {/* 6) NEWSLETTER SUBSCRIPTION */}
@@ -225,6 +265,7 @@ function Form() {
                 <button
                     className="w-full mt-[1rem] pt-[1rem] pb-[.35rem] bg-flame text-[3rem] transition-all duration-200 hover:bg-black hover:text-white"
                     type="submit"
+                    disabled={isValid ? false : true}
                 >
                     SEND
                 </button>
