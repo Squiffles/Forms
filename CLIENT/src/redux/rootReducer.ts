@@ -27,6 +27,7 @@ interface AnswerAttributes {
 };
 
 interface answerState {
+    session_id: string;
     answers: {
         data: AnswerAttributes[] | null,
         isSuccessful: Boolean,
@@ -36,12 +37,13 @@ interface answerState {
 };
 
 const initialState: answerState = {
+    session_id: "",
     answers: {
         data: null,
         isSuccessful: false,
         isRejected: false,
         isLoading: false
-    },
+    }
 };
 
 const rootReducer = createSlice({
