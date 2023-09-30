@@ -6,7 +6,7 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import validateAnswer from "../../services/validator";
 import { setSessionId } from "../../redux/rootReducer";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { useLocation, useNavigate } from "react-router-dom";
 
 
@@ -54,7 +54,7 @@ function Form() {
 
 
     // GLOBAL STATES:
-    const reduxSessionId = useAppSelector((state) => state.root.session_id);
+    // const reduxSessionId = useAppSelector((state) => state.root.session_id);
 
 
     // LOCAL STATES:
