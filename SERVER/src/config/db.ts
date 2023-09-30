@@ -30,8 +30,8 @@ const sequelize: Sequelize = new Sequelize(`${POSTGRES_DATA_BASE_URL}`, {
 
 // Store all the models initializators in an array so it can be used later to pass the sequelize instance to each initializator.
 const modelInitializators: Function[] = [
-    initAnswer,
-    initUser
+    initAnswer
+    // initUser
 ];
 
 // Here the array previously filled is used to pass each of its values the sequelize instance.

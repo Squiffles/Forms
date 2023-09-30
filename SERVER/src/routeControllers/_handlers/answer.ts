@@ -38,7 +38,33 @@ type Answer = {
     preferred_language: string,
     how_found: string,
     newsletter_subscription?: boolean
-}
+};
+
+const DB_findAnswerById = async (sessionId: string) => {
+    try {
+        const ANSWER = db.sequelize.models.Answer;
+        const DB_answerFound = await ANSWER.findOne({
+            where: {
+                session_id: sessionId
+            }
+        });
+
+        return {
+            success: true,
+            data: DB_answerFound
+        };
+
+    } catch (error) {
+        // DEV:
+        console.log(`Error while fetching "answers" from the DB: ${error}`);
+        throw new Error(`Error while fetching "answers" from the DB: ${error}`);
+        // PRODUCTION:
+        // return {
+        //     success: false,
+        //     error: `Error while fetching "answers" from the DB: ${error}`
+        // };
+    };
+};
 
 const DB_postAnswer = async (data: Answer) => {
     try {
@@ -57,10 +83,10 @@ const DB_postAnswer = async (data: Answer) => {
         console.log(`Error while creating "answer" in the DB: ${error}`);
         throw new Error(`Error while creating "answer" in the DB: ${error}`);
         // PRODUCTION:
-        return {
-            success: false,
-            error: `Error while creating "answer" in the DB: ${error}`
-        };
+        // return {
+        //     success: false,
+        //     error: `Error while creating "answer" in the DB: ${error}`
+        // };
     };
 };
 
@@ -68,5 +94,6 @@ const DB_postAnswer = async (data: Answer) => {
 // --------------- EXPORTS ---------------
 export {
     DB_findAllAnswers,
+    DB_findAnswerById,
     DB_postAnswer
 };
