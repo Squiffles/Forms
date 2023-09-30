@@ -1,12 +1,13 @@
 // --------------- IMPORTS ---------------
 import { useState, useEffect } from "react";
 import { items } from "../../services/data.json";
-import { postAnswerRequest } from "../../services/requests/answer";
+import { postAnswerRequest, editAnswerByIdRequest } from "../../services/requests/answer";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import validateAnswer from "../../services/validator";
-// import { setSessionId } from "../../redux/rootReducer";
-// import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setSessionId } from "../../redux/rootReducer";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 export type Answer = {
@@ -23,6 +24,20 @@ export type Answer = {
 function Form() {
 
 
+    // CONST:
+    const navigate = useNavigate();
+
+    const sessionId = localStorage.getItem('sessionId');
+
+    // First thing to do is to check if there is a valid "sessionId" in local storage.
+    useEffect(() => {
+        if (!sessionId) {
+            // If there is no "sessionId" in local storage, redirect to "/form"
+            navigate('/form');
+        }
+    }, [navigate]);
+
+
     const NAME = items[0];
     const PHONE_NUMBER = items[1];
     const START_DATE = items[2];
@@ -31,8 +46,15 @@ function Form() {
     const NEWSLETTER_SUBSCRIPTION = items[5];
 
 
+    // The "EDIT" button in the Results.tsx component, takes the user to "/form?edit=true".
+    const location = useLocation();
+    // So, the query param is required to render "edit" variations.
+    const queryParams = new URLSearchParams(location.search);
+    const isEditing = queryParams.get('edit') === 'true';
+
+
     // GLOBAL STATES:
-    // const reduxSessionId = useAppSelector((state) => state.root.session_id);
+    const reduxSessionId = useAppSelector((state) => state.root.session_id);
 
 
     // LOCAL STATES:
@@ -65,25 +87,37 @@ function Form() {
 
 
     // CONST:
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
 
     // FUNCTIONS:
     const handleSubmit = async (event: any) => {
         event.preventDefault();
-        // Check if the answer is filled before making the post request.
-        if (isValid) {
-            // The controller generates an uuid which will be used for storing this key in redux and retrieving the right form so the user can edit it.
-            const response = await postAnswerRequest(answer);
-            if (response.success) {
-                // dispatch(setSessionId(response.data.session_id));
-                const sessionId = JSON.stringify(response.data.session_id);
-                localStorage.setItem("sessionId", sessionId);
-                console.log(sessionId);
-            }
-        };
-    };
 
+        if (isEditing) {
+            if (sessionId) {
+                const parsedSessionId = JSON.parse(sessionId);
+
+                const success = await editAnswerByIdRequest(parsedSessionId, answer);
+                if (success === true) navigate("/results");
+                else window.alert("There was a problem trying to edit your answer");
+
+            }
+        } else {
+            // Check if the answer is filled before making the post request.
+            if (isValid) {
+                // The controller generates an uuid which will be used for storing this key in redux and retrieving the right form so the user can edit it.
+                const response = await postAnswerRequest(answer);
+                if (response.success) {
+                    navigate("/results");
+                    dispatch(setSessionId(response.data.session_id));
+                    const sessionId = JSON.stringify(response.data.session_id);
+                    localStorage.setItem("sessionId", sessionId);
+                    console.log(sessionId);
+                }
+            };
+        }
+    };
 
     type inputSort = "NAME" | "PHONE_NUMBER" | "START_DATE" | "PREFERRED_LANGUAGE" | "HOW_FOUND" | "NEWSLETTER_SUBSCRIPTION";
     const handleInputChange = (event: any, sort: inputSort) => {
@@ -127,7 +161,14 @@ function Form() {
 
     // LIFE CYCLES:
     useEffect(() => {
-        localStorage.setItem("sessionId", "");
+        try {
+            const sessionId = localStorage.getItem("sessionId");
+            if (!sessionId) {
+                localStorage.setItem("sessionId", "");
+            }
+        } catch (error) {
+            localStorage.setItem("sessionId", "");
+        }
     }, []);
 
     useEffect(() => {
@@ -170,6 +211,9 @@ function Form() {
                 className="flex flex-col gap-[5rem] w-[70%] mt-[5%]"
                 onSubmit={handleSubmit}
             >
+                {
+                    isEditing && <p>Yes it is</p>
+                }
                 {/* 1) NAME */}
                 <section className="flex flex-col justify-start">
                     {
@@ -340,7 +384,9 @@ function Form() {
                     type="submit"
                     disabled={isValid ? false : true}
                 >
-                    SEND
+                    {
+                        isEditing ? "EDIT" : "SEND"
+                    }
                 </button>
             </form>
         </main>

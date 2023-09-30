@@ -66,9 +66,28 @@ const postAnswerRequest = async (answer: any): Promise<any> => {
 };
 
 
+const editAnswerByIdRequest = async (sessionId: any, updatedAnswer: any): Promise<any> => {
+    try {
+        const { data } = await axios.put(`answer/edit/${sessionId}`, updatedAnswer);
+
+        if (data.success) {
+            return true
+        } else {
+            console.log("Unexpected error trying to: editAnswerByIdRequest | Client");
+            return "Sorry, there was an error processing your request. Try again later!";
+        };
+
+    } catch (error) {
+        console.log(error);
+        return "Sorry, there was an error processing your request. Try again later!";
+    };
+};
+
+
 // --------------- EXPORTS ---------------
 export {
     getAllAnswersRequest,
     getAnswerByIdRequest,
-    postAnswerRequest
+    postAnswerRequest,
+    editAnswerByIdRequest
 };
