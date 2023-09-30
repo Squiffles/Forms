@@ -66,6 +66,7 @@ const DB_findAnswerById = async (sessionId: string) => {
     };
 };
 
+
 const DB_postAnswer = async (data: Answer) => {
     try {
         const ANSWER = db.sequelize.models.Answer;
@@ -91,9 +92,50 @@ const DB_postAnswer = async (data: Answer) => {
 };
 
 
+const DB_editAnswerById = async (sessionId: string, newAnswer: any) => {
+    try {
+        const ANSWER = db.sequelize.models.Answer;
+        const DB_answerFound = await ANSWER.findOne({
+            where: {
+                session_id: sessionId
+            }
+        });
+
+        if (DB_answerFound) {
+            // Update each property
+            for (let prop in newAnswer) {
+                if (newAnswer[prop]) (DB_answerFound as any)[prop] = newAnswer[prop];
+            };
+
+            await DB_answerFound?.save();
+
+            return {
+                success: true,
+            };
+        } else {
+            return {
+                success: false
+            };
+        };
+
+
+    } catch (error) {
+        // DEV:
+        console.log(`Error while editing "answer" in the DB: ${error}`);
+        throw new Error(`Error while editing "answer" in the DB: ${error}`);
+        // PRODUCTION:
+        // return {
+        //     success: false,
+        //     error: `Error while editing "answer" in the DB: ${error}`
+        // };
+    };
+};
+
+
 // --------------- EXPORTS ---------------
 export {
     DB_findAllAnswers,
     DB_findAnswerById,
-    DB_postAnswer
+    DB_postAnswer,
+    DB_editAnswerById
 };
