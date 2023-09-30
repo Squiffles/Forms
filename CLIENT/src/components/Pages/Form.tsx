@@ -5,16 +5,19 @@ import { postAnswerRequest } from "../../services/requests/answer";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import validateAnswer from "../../services/validator";
+// import { setSessionId } from "../../redux/rootReducer";
+// import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 
 export type Answer = {
-    name: string;
-    phoneNumber: string;
-    startDate?: string | null;
-    preferredLanguage: string;
-    howFound: string;
+    full_name: string;
+    phone_number: string;
+    start_date?: string | null;
+    preferred_language: string;
+    how_found: string;
     newsletter_subscription?: boolean | null
 };
+
 
 // --------------- COMPONENT ---------------
 function Form() {
@@ -27,76 +30,135 @@ function Form() {
     const HOW_FOUND = items[4];
     const NEWSLETTER_SUBSCRIPTION = items[5];
 
+
+    // GLOBAL STATES:
+    // const reduxSessionId = useAppSelector((state) => state.root.session_id);
+
+
     // LOCAL STATES:
     const [answer, setAnswer] = useState<Answer>({
-        name: "",
-        phoneNumber: "",
-        startDate: null,
-        preferredLanguage: "",
-        howFound: "",
+        full_name: "",
+        phone_number: "",
+        start_date: null,
+        preferred_language: "",
+        how_found: "",
         newsletter_subscription: null
     });
 
     const [isValid, setIsValid] = useState(false);
 
     const [errors, setErrors] = useState({
-        nameError: "",
+        fullNameError: "",
         phoneNumberError: "",
         startDateError: "",
         preferredLanguageError: "",
         howFoundError: "",
-        newsletter_subscription: ""
+        newsletterSubscriptionError: ""
     });
 
     const [requiredFieldsErrors, setRequiredFieldsErrors] = useState({
-        nameError: "",
+        fullNameError: "",
         phoneNumberError: "",
         preferredLanguageError: "",
         howFoundError: ""
     });
 
 
-    // FUNCTIONS:
-    const handleSubmit = (event: any) => {
-        event.preventDefault();
+    // CONST:
+    // const dispatch = useAppDispatch();
 
+
+    // FUNCTIONS:
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
         // Check if the answer is filled before making the post request.
-        if (isValid) postAnswerRequest(answer);
+        if (isValid) {
+            // The controller generates an uuid which will be used for storing this key in redux and retrieving the right form so the user can edit it.
+            const response = await postAnswerRequest(answer);
+            if (response.success) {
+                // dispatch(setSessionId(response.data.session_id));
+                const sessionId = JSON.stringify(response.data.session_id);
+                localStorage.setItem("sessionId", sessionId);
+                console.log(sessionId);
+            }
+        };
     };
 
 
     type inputSort = "NAME" | "PHONE_NUMBER" | "START_DATE" | "PREFERRED_LANGUAGE" | "HOW_FOUND" | "NEWSLETTER_SUBSCRIPTION";
     const handleInputChange = (event: any, sort: inputSort) => {
-        // let VALUE = event.target.value;
 
-        sort === "NAME" && setAnswer({ ...answer, name: event.target.value });
-        // In the phone number case, with the PhoneInput tag, the newNumber is passed directly as parameter, so I just set event as phoneNumber.
-        sort === "PHONE_NUMBER" && setAnswer({ ...answer, phoneNumber: event });
-        sort === "START_DATE" && setAnswer({ ...answer, startDate: event.target.value });
-        sort === "PREFERRED_LANGUAGE" && setAnswer({ ...answer, preferredLanguage: event.target.value });
-        sort === "HOW_FOUND" && setAnswer({ ...answer, howFound: event.target.value });
-        sort === "NEWSLETTER_SUBSCRIPTION" && (setAnswer({ ...answer, newsletter_subscription: event.target.checked ? true : null }));
+        setAnswer((prevAnswer) => {
+            let updatedAnswer = { ...prevAnswer };
 
-        return;
+            switch (sort) {
+                case "NAME":
+                    updatedAnswer.full_name = event.target.value;
+                    break;
+                case "PHONE_NUMBER":
+                    updatedAnswer.phone_number = event;
+                    break;
+                case "START_DATE":
+                    if (!event.target.value) updatedAnswer.start_date = null;
+                    else updatedAnswer.start_date = event.target.value;
+                    break;
+                case "PREFERRED_LANGUAGE":
+                    updatedAnswer.preferred_language = event.target.value;
+                    break;
+                case "HOW_FOUND":
+                    updatedAnswer.how_found = event.target.value;
+                    break;
+                case "NEWSLETTER_SUBSCRIPTION":
+                    updatedAnswer.newsletter_subscription = event.target.checked ? true : null;
+                    break;
+                default:
+                    break;
+            };
+
+            // Perform validation on the updatedAnswer:
+            const { errors, requiredFieldsErrors } = validateAnswer(updatedAnswer);
+            setErrors(errors);
+            setRequiredFieldsErrors(requiredFieldsErrors);
+
+            return updatedAnswer; // Return the updated answer
+        });
     };
 
+
+    // LIFE CYCLES:
     useEffect(() => {
-        const { errors, requiredFieldsErrors } = validateAnswer(answer);
-        setErrors(errors);
-        setRequiredFieldsErrors(requiredFieldsErrors);
-    }, [answer]);
+        localStorage.setItem("sessionId", "");
+    }, []);
 
     useEffect(() => {
         const requiredFieldsErrorsAreEmpty = Object.values(requiredFieldsErrors).every(value => value === "")
         const errorsAreEmpty = Object.values(errors).every(value => value === "");
-        if (errorsAreEmpty && requiredFieldsErrorsAreEmpty) {
+        // Filter fields that have an empty string:
+        const requiredFieldsAreEmpty = Object.keys(answer)
+            .filter((key) => answer[key as keyof Answer] === "")
+        // If the returned array is empty, that means that the required fields are filled.
+
+        if (requiredFieldsErrorsAreEmpty && errorsAreEmpty && !requiredFieldsAreEmpty.length) {
             setIsValid(true);
-        } else setIsValid (false);
+        } else setIsValid(false);
     }, [errors, requiredFieldsErrors]);
 
     useEffect(() => {
-        console.log(isValid)
-    }, [isValid])
+        console.log(answer)
+    }, [answer])
+
+    useEffect(() => {
+        console.log(errors)
+    }, [errors])
+
+    // useEffect(() => {
+    //     console.log(isValid)
+    // }, [isValid])
+
+    // useEffect(() => {
+    //     console.log({ reduxSessionId });
+    // }, [dispatch]);
+
 
     // ELEMENT:
     return (
@@ -115,18 +177,22 @@ function Form() {
                             <p>*Required</p>
                         ) : null
                     }
-                    <label className="text-[1.5rem]">{NAME.label}</label>
+                    <label
+                        htmlFor={NAME.name}
+                        className="text-[1.5rem]">{NAME.label}</label>
                     <div className="relative w-full mt-4">
                         <input
+                            id={NAME.name}
                             className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
                             type={NAME.type}
+                            value={answer.full_name}
                             onChange={(e) => handleInputChange(e, "NAME")}
                             required={NAME.required}
                             spellCheck={false}
                         />
                         <div className="absolute w-full h-1 bg-black" />
                     </div>
-                    <p>{errors.nameError}</p>
+                    <p>{errors.fullNameError}</p>
                 </section>
                 {/* 2) PHONE NUMBER */}
                 <section className="flex flex-col justify-start">
@@ -135,12 +201,15 @@ function Form() {
                             <p>*Required</p>
                         ) : null
                     }
-                    <label className="text-[1.5rem]">{PHONE_NUMBER.label}</label>
+                    <label
+                        htmlFor={PHONE_NUMBER.name}
+                        className="text-[1.5rem]">{PHONE_NUMBER.label}</label>
                     <div className="relative w-full mt-4">
                         <PhoneInput
+                            id={PHONE_NUMBER.name}
                             className="w-full bg-transparent outline-none text-[3rem] leading-[1]"
                             type={PHONE_NUMBER.type}
-                            value={answer.phoneNumber}
+                            value={answer.phone_number}
                             onChange={(newNumber) => handleInputChange(newNumber, "PHONE_NUMBER")}
                             required={PHONE_NUMBER.required}
                         />
@@ -156,14 +225,14 @@ function Form() {
                         ) : null
                     }
                     <label
+                        htmlFor={START_DATE.name}
                         className="text-[1.5rem]"
-                        htmlFor="start_date"
                     >
                         {START_DATE.label}
                     </label>
                     <div className="relative w-full mt-4">
                         <input
-                            id="start_date"
+                            id={START_DATE.name}
                             className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
                             type={START_DATE.type}
                             min="2000-01-01"
@@ -183,18 +252,20 @@ function Form() {
                         ) : null
                     }
                     <label
+                        htmlFor={PREFERRED_LANGUAGE.name}
                         className="text-[1.5rem]"
-                        htmlFor="preferred_language"
                     >
                         {PREFERRED_LANGUAGE.label}
                     </label>
                     <div className="relative w-full mt-4">
                         <select
-                            id="preferred_language"
+                            id={PREFERRED_LANGUAGE.name}
                             className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
+                            value={answer.preferred_language}
                             required={PREFERRED_LANGUAGE.required}
                             onChange={(e) => handleInputChange(e, "PREFERRED_LANGUAGE")}
                         >
+                            <option value="" disabled></option>
                             {
                                 PREFERRED_LANGUAGE.options?.map((option, idx) => (
                                     <option key={idx} value={option.value} >{option.label}</option>
@@ -212,7 +283,9 @@ function Form() {
                             <p>*Required</p>
                         ) : null
                     }
-                    <label className="text-[1.5rem]">{HOW_FOUND.label}</label>
+                    <label
+                        htmlFor="option_0"
+                        className="text-[1.5rem]">{HOW_FOUND.label}</label>
                     <div className="relative w-full mt-4">
                         {
                             HOW_FOUND.options?.map((option, index) => (
