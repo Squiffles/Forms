@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { items } from "../../services/data.json";
 import { postAnswerRequest, editAnswerByIdRequest } from "../../services/requests/answer";
+import { getCountryCode } from "../../services/requests/countryCode";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import validateAnswer from "../../services/validator";
@@ -26,7 +27,6 @@ function Form() {
 
     // CONST:
     const navigate = useNavigate();
-
     const sessionId = localStorage.getItem('sessionId');
 
     // First thing to do is to check if there is a valid "sessionId" in local storage.
@@ -34,7 +34,7 @@ function Form() {
         if (!sessionId) {
             // If there is no "sessionId" in local storage, redirect to "/form"
             navigate('/form');
-        }
+        };
     }, [navigate]);
 
 
@@ -58,6 +58,8 @@ function Form() {
 
 
     // LOCAL STATES:
+    const [countryCode, setCountryCode] = useState<any>(null);
+
     const [answer, setAnswer] = useState<Answer>({
         full_name: "",
         phone_number: "",
@@ -101,7 +103,6 @@ function Form() {
                 const success = await editAnswerByIdRequest(parsedSessionId, answer);
                 if (success === true) navigate("/results");
                 else window.alert("There was a problem trying to edit your answer");
-
             }
         } else {
             // Check if the answer is filled before making the post request.
@@ -161,6 +162,16 @@ function Form() {
 
     // LIFE CYCLES:
     useEffect(() => {
+        // Fetch the country code, to make the form friendlier.
+        (async () => {
+            const response = await getCountryCode();
+            if (response.success && response.data) {
+                setCountryCode(response.data);
+                console.log(response);
+            } else setCountryCode(null);
+        })();
+
+        // Try to get the sessionId from local storage or set it to an empty string if it's falsy.
         try {
             const sessionId = localStorage.getItem("sessionId");
             if (!sessionId) {
@@ -256,6 +267,7 @@ function Form() {
                             value={answer.phone_number}
                             onChange={(newNumber) => handleInputChange(newNumber, "PHONE_NUMBER")}
                             required={PHONE_NUMBER.required}
+                            defaultCountry={countryCode}
                         />
                         <div className="absolute w-full h-1 bg-black" />
                     </div>

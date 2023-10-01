@@ -1,4 +1,5 @@
 // --------------- IMPORTS ---------------
+import { Link } from "react-router-dom";
 
 
 // --------------- COMPONENT ---------------
@@ -22,12 +23,17 @@ function HomePage() {
                     <br />
                     Please take your time to complete a <u>short form</u>.
                 </p>
-                <button
-                    className="w-full mt-[1rem] pt-[1rem] pb-[.7rem] bg-flame text-[3rem] transition-all duration-200 hover:bg-white hover:text-flame"
-                    // onClick={ }
+                <Link
+                    to="/form"
+                    className="mt-[1rem]"
                 >
-                    FILL IT (the form)
-                </button>
+                    <button
+                        className="w-full pt-[1rem] pb-[.7rem] bg-flame text-[3rem] transition-all duration-200 hover:bg-white hover:text-flame"
+                    // onClick={ }
+                    >
+                        FILL IT (the form)
+                    </button>
+                </Link>
             </div>
         </main>
     );
