@@ -1,7 +1,7 @@
 // --------------- IMPORTS ---------------
 import { Request, Response, Router } from "express";
 import answerRouter from "./Answer";
-import userRouter from "./User";
+// import userRouter from "./User";
 import countryCodeRouter from "./CountryCode";
 
 
@@ -19,7 +19,7 @@ const initialRequest = async (_req: Request, res: Response) => {
 
 indexRouter.get("/", initialRequest);
 indexRouter.use("/answer", answerRouter);
-indexRouter.use("/user", userRouter);
+// indexRouter.use("/user", userRouter);
 indexRouter.use("/countryCode", countryCodeRouter);
 
 

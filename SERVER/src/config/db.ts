@@ -37,7 +37,7 @@ const modelInitializators: Function[] = [
 // Here the array previously filled is used to pass each of its values the sequelize instance.
 modelInitializators.forEach((model: Function) => model(sequelize));
 
-const { Answer, User } = sequelize.models;
+// const { Answer, User } = sequelize.models;
 
 // --------------- ASSOCIATIONS ---------------
 // User.hasMany(Answer, {

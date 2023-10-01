@@ -2,6 +2,7 @@
 import path from "path";
 import { Router, Request, Response } from "express";
 import { config } from "dotenv";
+// lightest option: node-fetch, removed axios at this point.
 import fetch from "node-fetch";
 
 config({ path: path.resolve(__dirname, "../.env") });
