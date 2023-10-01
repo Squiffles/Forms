@@ -2,6 +2,7 @@
 import path from "path";
 import { Router, Request, Response } from "express";
 import { config } from "dotenv";
+import fetch from "node-fetch";
 
 config({ path: path.resolve(__dirname, "../.env") });
 
@@ -20,7 +21,7 @@ const getCountryCode = async (_req: Request, res: Response): Promise<any> => {
             message: "No response received after attempting to fetch the IP address"
         });
 
-        const data = await response.json();
+        const data: any = await response.json();
 
         return res.status(200).json({
             success: true,
