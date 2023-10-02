@@ -1,14 +1,16 @@
 // --------------- IMPORTS ---------------
 import { useState, useEffect } from "react";
-import { items } from "../../services/data.json";
-import { postAnswerRequest, editAnswerByIdRequest } from "../../services/requests/answer";
-import { getCountryCode } from "../../services/requests/countryCode";
-import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
-import validateAnswer from "../../services/validator";
-import { setSessionId } from "../../redux/rootReducer";
-import { useAppDispatch } from "../../redux/hooks";
 import { useLocation, useNavigate } from "react-router-dom";
+// import { useAppDispatch } from "../../redux/hooks";
+
+import { items } from "../../../services/data.json";
+// import { setSessionId } from "../../redux/rootReducer";
+import { getAnswerByIdRequest, postAnswerRequest, editAnswerByIdRequest } from "../../../services/requests/answer";
+import { getCountryCode } from "../../../services/requests/countryCode";
+import { handleInputChange } from "./handlers";
+import PhoneInput from "react-phone-number-input";
+
+import "react-phone-number-input/style.css";
 
 
 export type Answer = {
@@ -27,15 +29,71 @@ function Form() {
 
     // CONST:
     const navigate = useNavigate();
-    const sessionId = localStorage.getItem('sessionId');
+    const location = useLocation();
+    // const dispatch = useAppDispatch();
 
-    // First thing to do is to check if there is a valid "sessionId" in local storage.
+    const [existingAnswer, setExistingAnswer] = useState<Answer>({
+        full_name: "",
+        phone_number: "",
+        start_date: null,
+        preferred_language: "",
+        how_found: "",
+        newsletter_subscription: null
+    });
+
+    // The "EDIT" button in the Results.tsx component, takes the user to "/form?edit=true".
+    // So, the query param and the sessionId from localStorage are required to render the "edit" variations:
+    // "SEND" button instead of "EDIT" button, load previous answer, etc.
+    // First thing to do is to quickly check the URL and if the "sessionId" is not falsy.
+    const sessionId = localStorage.getItem('sessionId');
+    const [isEditing, setIsEditing] = useState(false);
     useEffect(() => {
-        if (!sessionId) {
-            // If there is no "sessionId" in local storage, redirect to "/form"
-            navigate('/form');
-        };
-    }, [navigate]);
+        (async () => {
+            try {
+                const queryParams = new URLSearchParams(location.search);
+
+                if (queryParams.get('edit') === 'true' && sessionId) {
+                    // At this point the URL should look like: "/form?edit=true".
+
+                    const parsedSessionId = JSON.parse(sessionId);
+
+                    // The "parsedSessionId" should be a valid UUID.
+                    if (parsedSessionId && typeof parsedSessionId === "string") {
+                        const regexUUID = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+                        if (!regexUUID.test(parsedSessionId)) navigate('/form');
+                    } else navigate('/form');
+
+                    // Then, the "parsedSessionId" needs to be validated in the DB.
+                    const response = await getAnswerByIdRequest(parsedSessionId);
+
+                    if (response.success && response.data) {
+                        setIsEditing(true);
+                        // Fill the form with the previous answer.
+                        setAnswer(response.data);
+
+                    } else {
+                        setIsEditing(false);
+                        navigate('/form');
+                    };
+                };
+            } catch (error) {
+                // In case there's an error parsing an invalid JSON value: undefined, null...
+                setIsEditing(false);
+                navigate('/form');
+            };
+        });
+        const mockAnswer = {
+            full_name: "Seb",
+            phone_number: "3497",
+            start_date: "2020-01-01",
+            preferred_language: "english",
+            how_found: "advertisement",
+            newsletter_subscription: null
+        }
+        setIsEditing(true);
+        navigate('/form?edit=true');
+        setExistingAnswer(mockAnswer);
+    }, []);
 
 
     const NAME = items[0];
@@ -44,13 +102,6 @@ function Form() {
     const PREFERRED_LANGUAGE = items[3];
     const HOW_FOUND = items[4];
     const NEWSLETTER_SUBSCRIPTION = items[5];
-
-
-    // The "EDIT" button in the Results.tsx component, takes the user to "/form?edit=true".
-    const location = useLocation();
-    // So, the query param is required to render "edit" variations.
-    const queryParams = new URLSearchParams(location.search);
-    const isEditing = queryParams.get('edit') === 'true';
 
 
     // GLOBAL STATES:
@@ -69,7 +120,8 @@ function Form() {
         newsletter_subscription: null
     });
 
-    const [isValid, setIsValid] = useState(false);
+    // Truthfulness of the answer.
+    const [isValid, setIsValid] = useState<boolean>();
 
     const [errors, setErrors] = useState({
         fullNameError: "",
@@ -88,11 +140,13 @@ function Form() {
     });
 
 
-    // CONST:
-    const dispatch = useAppDispatch();
-
-
     // FUNCTIONS:
+    type inputField = "NAME" | "PHONE_NUMBER" | "START_DATE" | "PREFERRED_LANGUAGE" | "HOW_FOUND" | "NEWSLETTER_SUBSCRIPTION";
+    const auxHandleInputChange = (e: any, isEditing: boolean, sort: inputField) => {
+        return handleInputChange(e, isEditing, sort, setAnswer, setExistingAnswer, setErrors, setRequiredFieldsErrors);
+    };
+
+
     const handleSubmit = async (event: any) => {
         event.preventDefault();
 
@@ -111,52 +165,13 @@ function Form() {
                 const response = await postAnswerRequest(answer);
                 if (response.success) {
                     navigate("/results");
-                    dispatch(setSessionId(response.data.session_id));
+                    // dispatch(setSessionId(response.data.session_id));
                     const sessionId = JSON.stringify(response.data.session_id);
                     localStorage.setItem("sessionId", sessionId);
                     console.log(sessionId);
                 }
             };
-        }
-    };
-
-    type inputSort = "NAME" | "PHONE_NUMBER" | "START_DATE" | "PREFERRED_LANGUAGE" | "HOW_FOUND" | "NEWSLETTER_SUBSCRIPTION";
-    const handleInputChange = (event: any, sort: inputSort) => {
-
-        setAnswer((prevAnswer) => {
-            let updatedAnswer = { ...prevAnswer };
-
-            switch (sort) {
-                case "NAME":
-                    updatedAnswer.full_name = event.target.value;
-                    break;
-                case "PHONE_NUMBER":
-                    updatedAnswer.phone_number = event;
-                    break;
-                case "START_DATE":
-                    if (!event.target.value) updatedAnswer.start_date = null;
-                    else updatedAnswer.start_date = event.target.value;
-                    break;
-                case "PREFERRED_LANGUAGE":
-                    updatedAnswer.preferred_language = event.target.value;
-                    break;
-                case "HOW_FOUND":
-                    updatedAnswer.how_found = event.target.value;
-                    break;
-                case "NEWSLETTER_SUBSCRIPTION":
-                    updatedAnswer.newsletter_subscription = event.target.checked ? true : null;
-                    break;
-                default:
-                    break;
-            };
-
-            // Perform validation on the updatedAnswer:
-            const { errors, requiredFieldsErrors } = validateAnswer(updatedAnswer);
-            setErrors(errors);
-            setRequiredFieldsErrors(requiredFieldsErrors);
-
-            return updatedAnswer; // Return the updated answer
-        });
+        };
     };
 
 
@@ -240,8 +255,8 @@ function Form() {
                             id={NAME.name}
                             className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
                             type={NAME.type}
-                            value={answer.full_name}
-                            onChange={(e) => handleInputChange(e, "NAME")}
+                            value={isEditing ? existingAnswer.full_name : answer.full_name}
+                            onChange={(e) => auxHandleInputChange(e, isEditing, "NAME")}
                             required={NAME.required}
                             spellCheck={false}
                         />
@@ -264,8 +279,8 @@ function Form() {
                             id={PHONE_NUMBER.name}
                             className="w-full bg-transparent outline-none text-[3rem] leading-[1]"
                             type={PHONE_NUMBER.type}
-                            value={answer.phone_number}
-                            onChange={(newNumber) => handleInputChange(newNumber, "PHONE_NUMBER")}
+                            value={isEditing ? existingAnswer.phone_number : answer.phone_number}
+                            onChange={(newNumber) => auxHandleInputChange(newNumber, isEditing, "PHONE_NUMBER")}
                             required={PHONE_NUMBER.required}
                             defaultCountry={countryCode}
                         />
@@ -291,9 +306,13 @@ function Form() {
                             id={START_DATE.name}
                             className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
                             type={START_DATE.type}
+                            value={isEditing
+                                ? (existingAnswer.start_date ? existingAnswer.start_date : "")
+                                : (answer.start_date ? answer.start_date : "")
+                            }
                             min="2000-01-01"
                             max="2050-12-31"
-                            onChange={(e) => handleInputChange(e, "START_DATE")}
+                            onChange={(e) => auxHandleInputChange(e, isEditing, "START_DATE")}
                             required={START_DATE.required}
                         />
                         <div className="absolute w-full h-1 bg-black" />
@@ -317,9 +336,9 @@ function Form() {
                         <select
                             id={PREFERRED_LANGUAGE.name}
                             className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
-                            value={answer.preferred_language}
+                            value={isEditing ? existingAnswer.preferred_language : answer.preferred_language}
                             required={PREFERRED_LANGUAGE.required}
-                            onChange={(e) => handleInputChange(e, "PREFERRED_LANGUAGE")}
+                            onChange={(e) => auxHandleInputChange(e, isEditing, "PREFERRED_LANGUAGE")}
                         >
                             <option value="" disabled></option>
                             {
@@ -355,8 +374,9 @@ function Form() {
                                         className="w-[30px] bg-transparent outline-none text-[5.5rem] leading-[1]"
                                         type={items[4].type}
                                         name="how_found"
-                                        onChange={(e) => handleInputChange(e, "HOW_FOUND")}
+                                        onChange={(e) => auxHandleInputChange(e, isEditing, "HOW_FOUND")}
                                         value={option.value}
+                                        checked={isEditing ? option.value === existingAnswer.how_found : false}
                                         required={items[4].required}
                                     />
                                     <label
@@ -386,9 +406,12 @@ function Form() {
                         id="newsletter_subscription"
                         className="w-[50px] bg-transparent outline-none text-[6rem] leading-[1] checked:bg-flame form-radio"
                         type={NEWSLETTER_SUBSCRIPTION.type}
-                        checked={answer.newsletter_subscription === true}
+                        checked={isEditing
+                            ? (existingAnswer.newsletter_subscription === true)
+                            : (answer.newsletter_subscription === true)
+                        }
                         required={NEWSLETTER_SUBSCRIPTION.required}
-                        onChange={(e) => handleInputChange(e, "NEWSLETTER_SUBSCRIPTION")}
+                        onChange={(e) => auxHandleInputChange(e, isEditing, "NEWSLETTER_SUBSCRIPTION")}
                     />
                 </section>
                 <button

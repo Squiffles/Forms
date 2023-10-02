@@ -33,12 +33,18 @@ const getAnswerByIdRequest = async (sessionId: any): Promise<any> => {
             return data;
         } else {
             console.log("Unexpected error trying to: getAnswerByIdRequest | Client");
-            return "Sorry, there was an error processing your request. Try again later!";
+            return {
+                success: false,
+                message: "Sorry, there was an error processing your request.Try again later!"
+            };
         };
 
     } catch (error) {
         console.log(error);
-        return "Sorry, there was an error processing your request. Try again later!";
+        return {
+            success: false,
+            message: "Sorry, there was an error processing your request. Try again later!"
+        };
     };
 };
 

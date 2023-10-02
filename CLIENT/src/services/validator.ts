@@ -1,4 +1,4 @@
-import { Answer } from "../components/Pages/Form";
+import { Answer } from "../components/Pages/Form/Form";
 import { items } from "../services/data.json";
 
 
