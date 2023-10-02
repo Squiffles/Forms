@@ -54,7 +54,6 @@ function Form() {
 
                 if (queryParams.get('edit') === 'true' && sessionId) {
                     // At this point the URL should look like: "/form?edit=true".
-
                     const parsedSessionId = JSON.parse(sessionId);
 
                     // The "parsedSessionId" should be a valid UUID.
@@ -69,30 +68,32 @@ function Form() {
                     if (response.success && response.data) {
                         setIsEditing(true);
                         // Fill the form with the previous answer.
-                        setAnswer(response.data);
+                        setExistingAnswer(response.data);
 
                     } else {
                         setIsEditing(false);
                         navigate('/form');
                     };
+                } else {
+                    navigate('/form');
                 };
             } catch (error) {
                 // In case there's an error parsing an invalid JSON value: undefined, null...
                 setIsEditing(false);
                 navigate('/form');
             };
-        });
-        const mockAnswer = {
-            full_name: "Seb",
-            phone_number: "3497",
-            start_date: "2020-01-01",
-            preferred_language: "english",
-            how_found: "advertisement",
-            newsletter_subscription: null
-        }
-        setIsEditing(true);
-        navigate('/form?edit=true');
-        setExistingAnswer(mockAnswer);
+        })();
+        // const mockAnswer = {
+        //     full_name: "Seb",
+        //     phone_number: "3497",
+        //     start_date: "2020-01-01",
+        //     preferred_language: "english",
+        //     how_found: "advertisement",
+        //     newsletter_subscription: null
+        // }
+        // setIsEditing(true);
+        // navigate('/form?edit=true');
+        // setExistingAnswer(mockAnswer);
     }, []);
 
 
@@ -154,7 +155,7 @@ function Form() {
             if (sessionId) {
                 const parsedSessionId = JSON.parse(sessionId);
 
-                const success = await editAnswerByIdRequest(parsedSessionId, answer);
+                const success = await editAnswerByIdRequest(parsedSessionId, existingAnswer);
                 if (success === true) navigate("/results");
                 else window.alert("There was a problem trying to edit your answer");
             }
@@ -359,7 +360,8 @@ function Form() {
                         ) : null
                     }
                     <label
-                        htmlFor="option_0"
+                        htmlFor={HOW_FOUND.options ? HOW_FOUND.options[0].value : ""}
+                        // Potential alternative: `option_0` -> id={`option_${index}`}
                         className="text-[1.5rem]">{HOW_FOUND.label}</label>
                     <div className="relative w-full mt-4">
                         {
@@ -370,18 +372,21 @@ function Form() {
                                 >
                                     <input
                                         key={index}
-                                        id={`option_${index}`}
+                                        id={option.value}
                                         className="w-[30px] bg-transparent outline-none text-[5.5rem] leading-[1]"
                                         type={items[4].type}
                                         name="how_found"
                                         onChange={(e) => auxHandleInputChange(e, isEditing, "HOW_FOUND")}
                                         value={option.value}
-                                        checked={isEditing ? option.value === existingAnswer.how_found : false}
+                                        checked={isEditing
+                                            ? (option.value === existingAnswer.how_found)
+                                            : (option.value === answer.how_found)
+                                        }
                                         required={items[4].required}
                                     />
                                     <label
                                         className="text-[6rem] ml-4"
-                                        htmlFor={`option_${index}`}
+                                        htmlFor={option.value}
                                     >
                                         {option.label}
                                     </label>
