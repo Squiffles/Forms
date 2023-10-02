@@ -49,7 +49,7 @@ const validateAnswer = (answer: Answer) => {
     } else if (start_date !== null && typeof start_date === "string") {
         // If Start date isn't null but a a string, then it must match the format YYYY/MM/DD.
         if (start_date && !dateRegex.test(start_date)) {
-            errors.startDateError = "Ingrese una fecha válida";
+            errors.startDateError = "Ingrese una fecha válida.";
         }
     };
     if (typeof preferred_language !== "string") {

@@ -80,7 +80,7 @@ function Results() {
 
     // COMPONENT:
     return (
-        <main className="flex flex-col w-full min-h-screen bg-white text-black">
+        <main className="flex flex-col w-full min-h-screen bg-white dark:bg-black text-black dark:text-white">
             <header className="flex justify-between items-center w-full text-[4rem] leading-[1]">
                 <span>INPUT</span><span>IT</span>
             </header>
@@ -91,7 +91,7 @@ function Results() {
                         {/* RECREATE THE FORM */}
                         {
                             localStorage.getItem("sessionId") && (
-                                <div className="w-full p-10 border border-x-2 border-t-2 rounded-xl border-black">
+                                <div className="w-full p-10 border border-x-2 border-t-2 rounded-xl border-black dark:border-white">
                                     <label>{NAME.label}</label>
                                     <p className="text-[calc(2rem+1vw)]">{currentAnswer.full_name}</p>
                                     <label className="mt-4">{PHONE_NUMBER.label}</label>
@@ -108,7 +108,7 @@ function Results() {
                             )
                         }
                         <button
-                            className="pt-[1rem] pb-[.35rem] bg-flame text-[3rem] transition-all duration-200 hover:bg-black hover:text-white"
+                            className="pt-[1rem] pb-[.35rem] text-[3rem] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
                             onClick={handleEditButton}
                         >
                             EDIT
@@ -130,7 +130,7 @@ function Results() {
                                 return (
                                     <div
                                         key={index}
-                                        className="flex flex-1 flex-col p-10 border border-black rounded-xl"
+                                        className="flex flex-1 flex-col p-10 border border-black dark:border-white rounded-xl"
                                     >
                                         <label>{NAME.label}</label>
                                         <p className="text-[calc(2rem+1vw)]">{answer.full_name}</p>

@@ -37,8 +37,8 @@ function Form() {
     // "SEND" button instead of "EDIT" button, load previous answer, etc.
     // First thing to do is to quickly check the URL and if the "sessionId" is not falsy.
     const sessionId = localStorage.getItem('sessionId');
-    const [isEditing, setIsEditing] = useState<boolean>(false);
 
+    const [isEditing, setIsEditing] = useState<boolean>(false);
     const [answer, setAnswer] = useState<Answer>({
         full_name: "",
         phone_number: "",
@@ -47,6 +47,7 @@ function Form() {
         how_found: "",
         newsletter_subscription: null
     });
+
 
     useEffect(() => {
         (async () => {
@@ -68,33 +69,20 @@ function Form() {
 
                     if (response.success && response.data) {
                         setIsEditing(true);
-                        // Fill the form with the previous answer.
+                        // Fill the form with the 0previous answer.
                         setAnswer(response.data);
 
                     } else {
                         setIsEditing(false);
                         navigate('/form');
                     };
-                } else {
-                    navigate('/form');
-                };
+                }
             } catch (error) {
                 // In case there's an error parsing an invalid JSON value: undefined, null...
                 setIsEditing(false);
                 navigate('/form');
             };
         })();
-        // const mockAnswer = {
-        //     full_name: "Seb",
-        //     phone_number: "3497",
-        //     start_date: "2020-01-01",
-        //     preferred_language: "english",
-        //     how_found: "advertisement",
-        //     newsletter_subscription: null
-        // }
-        // setIsEditing(true);
-        // navigate('/form?edit=true');
-        // setAnswer(mockAnswer);
     }, []);
 
 
@@ -165,7 +153,7 @@ function Form() {
             }
         } catch (error) {
             localStorage.setItem("sessionId", "");
-        }
+        };
     }, []);
 
     useEffect(() => {
@@ -200,7 +188,7 @@ function Form() {
 
     // ELEMENT:
     return (
-        <main className="flex flex-col items-center w-full min-h-screen bg-white text-black">
+        <main className="flex flex-col items-center w-full min-h-screen bg-white dark:bg-black  text-black dark:text-white">
             <header className="flex justify-between items-center w-full text-[4rem] leading-[1]">
                 <span>INPUT</span><span>IT</span>
             </header>
@@ -208,14 +196,11 @@ function Form() {
                 className="flex flex-col gap-[5rem] w-[70%] mt-[5%]"
                 onSubmit={auxHandleSubmit}
             >
-                {
-                    isEditing && <p>Yes it is</p>
-                }
                 {/* 1) NAME */}
                 <section className="flex flex-col justify-start">
                     {
                         NAME.required ? (
-                            <p>*Required</p>
+                            <p>*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
@@ -231,7 +216,7 @@ function Form() {
                             required={NAME.required}
                             spellCheck={false}
                         />
-                        <div className="absolute w-full h-1 bg-black" />
+                        <div className="absolute w-full h-1 bg-black dark:bg-white" />
                     </div>
                     <p>{errors.fullNameError}</p>
                 </section>
@@ -239,7 +224,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         PHONE_NUMBER.required ? (
-                            <p>*Required</p>
+                            <p>*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
@@ -255,7 +240,7 @@ function Form() {
                             required={PHONE_NUMBER.required}
                             defaultCountry={countryCode}
                         />
-                        <div className="absolute w-full h-1 bg-black" />
+                        <div className="absolute w-full h-1 bg-black dark:bg-white" />
                     </div>
                     <p>{errors.phoneNumberError}</p>
                 </section>
@@ -263,7 +248,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         START_DATE.required ? (
-                            <p>*Required</p>
+                            <p>*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
@@ -283,7 +268,7 @@ function Form() {
                             onChange={(e) => auxHandleInputChange(e, "START_DATE")}
                             required={START_DATE.required}
                         />
-                        <div className="absolute w-full h-1 bg-black" />
+                        <div className="absolute w-full h-1 bg-black dark:bg-white" />
                     </div>
                     <p>{errors.startDateError}</p>
                 </section>
@@ -291,7 +276,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         PREFERRED_LANGUAGE.required ? (
-                            <p>*Required</p>
+                            <p>*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
@@ -315,7 +300,7 @@ function Form() {
                                 ))
                             }
                         </select>
-                        <div className="absolute w-full h-1 bg-black" />
+                        <div className="absolute w-full h-1 bg-black dark:bg-white" />
                     </div>
                     <p>{errors.preferredLanguageError}</p>
                 </section>
@@ -323,7 +308,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         HOW_FOUND.required ? (
-                            <p>*Required</p>
+                            <p>*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
@@ -364,7 +349,7 @@ function Form() {
                 <section className="flex flex-row-reverse justify-end">
                     {
                         NEWSLETTER_SUBSCRIPTION.required ? (
-                            <p>*Required</p>
+                            <p>*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
@@ -381,12 +366,12 @@ function Form() {
                     />
                 </section>
                 <button
-                    className="w-full mt-[1rem] pt-[1rem] pb-[.35rem] bg-flame text-[3rem] transition-all duration-200 hover:bg-black hover:text-white"
+                    className="w-full mt-[1rem] pt-[1rem] pb-[.35rem] text-[3rem] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
                     type="submit"
                     disabled={isValid ? false : true}
                 >
                     {
-                        isEditing ? "EDIT" : "SEND"
+                        isEditing ? "EDITAR" : "ENVIAR"
                     }
                 </button>
             </form>

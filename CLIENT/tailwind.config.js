@@ -10,7 +10,8 @@ export default {
     theme: {
         extend: {
             colors: {
-                "flame": "#D36135",
+                "flame": "#FF6E36",
+                "palidFLame": "#D36135",
                 "softBlack": "#02020B",
                 "indigo": "#033F63",
                 "ashGray": "#C6D8D3",
@@ -18,7 +19,11 @@ export default {
             },
             fontFamily: {
                 "sans": ["Regular", ...defaultTheme.fontFamily.sans],
+            },
+            fontSize: {
+                "clamp-a": "clamp(5rem, 5vw + 0.5rem, 10rem)"
             }
+
         },
     },
     plugins: [],
