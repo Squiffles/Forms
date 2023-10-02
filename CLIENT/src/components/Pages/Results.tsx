@@ -33,7 +33,7 @@ function Results() {
 
 
     // FUNCTIONS:
-    // Map only the ones that are actually values and not labels: "preferred_language" and "how_found"
+    // Map only the ones that are actually values and not labels: "preferred_language" and "how_found".
     const mapOptionValuesToLabels = (fieldName: string, value: any) => {
         const field = items.find((item) => item.name === fieldName);
         if (field && field.options) {
@@ -45,17 +45,15 @@ function Results() {
         return value;
     };
 
-
     const handleEditButton = () => {
         navigate("/form?edit=true");
     };
 
+    const sessionId = (localStorage.getItem("sessionId"));
 
     // LIFE CYCLES:
     useEffect(() => {
         try {
-            const sessionId = (localStorage.getItem("sessionId"));
-
             if (sessionId) {
                 const parsedSessionId = JSON.parse(sessionId);
                 console.log(sessionId);
@@ -67,8 +65,6 @@ function Results() {
                     };
                 })();
             }
-
-
         } catch (error) {
             localStorage.setItem("sessionId", "");
         };
@@ -80,7 +76,6 @@ function Results() {
     useEffect(() => {
         console.log(currentAnswer)
     }, [currentAnswer])
-
 
 
     // COMPONENT:
@@ -102,13 +97,13 @@ function Results() {
                                     <label className="mt-4">{PHONE_NUMBER.label}</label>
                                     <p className="text-[calc(2rem+1vw)]">{currentAnswer.phone_number}</p>
                                     <label className={`mt-4 ${currentAnswer.start_date === null ? 'line-through' : ''}`}>{START_DATE.label}</label>
-                                    <p className="text-[calc(2rem+1vw)]">{currentAnswer.start_date !== null ? currentAnswer.start_date : null}</p>
+                                    <p className="text-[calc(2rem+1vw)]">{currentAnswer.start_date ? currentAnswer.start_date : null}</p>
                                     <label className="mt-4">{PREFERRED_LANGUAGE.label}</label>
                                     <p className="text-[calc(2rem+1vw)]">{mapOptionValuesToLabels("preferred_language", currentAnswer.preferred_language)}</p>
                                     <label className="mt-4">{HOW_FOUND.label}</label>
                                     <p className="text-[calc(2rem+1vw)]">{mapOptionValuesToLabels("how_found", currentAnswer.how_found)}</p>
                                     <label className={`mt-4 ${currentAnswer.newsletter_subscription === null ? 'line-through' : ''}`}>{NEWSLETTER_SUBSCRIPTION.label}</label>
-                                    <p className="text-[calc(2rem+1vw)]">{currentAnswer.newsletter_subscription !== null ? (currentAnswer.newsletter_subscription === true ? "Sí" : null) : null}</p>
+                                    <p className="text-[calc(2rem+1vw)]">{currentAnswer.newsletter_subscription ? (currentAnswer.newsletter_subscription === true ? "Sí" : null) : null}</p>
                                 </div>
                             )
                         }
@@ -142,13 +137,14 @@ function Results() {
                                         <label className="mt-4">{PHONE_NUMBER.label}</label>
                                         <p className="text-[calc(2rem+1vw)]">{answer.phone_number}</p>
                                         <label className={`mt-4 ${answer.start_date === null ? 'line-through' : ''}`}>{START_DATE.label}</label>
-                                        <p className="text-[calc(2rem+1vw)]">{answer.start_date !== null ? answer.start_date : null}</p>
+                                        <p className="text-[calc(2rem+1vw)]">{answer.start_date ? answer.start_date : null}</p>
                                         <label className="mt-4">{PREFERRED_LANGUAGE.label}</label>
                                         <p className="text-[calc(2rem+1vw)]">{mapOptionValuesToLabels("preferred_language", answer.preferred_language)}</p>
                                         <label className="mt-4">{HOW_FOUND.label}</label>
                                         <p className="text-[calc(2rem+1vw)]">{mapOptionValuesToLabels("how_found", answer.how_found)}</p>
                                         <label className={`mt-4 ${answer.newsletter_subscription === null ? 'line-through' : ''}`}>{NEWSLETTER_SUBSCRIPTION.label}</label>
-                                        <p className="text-[calc(2rem+1vw)]">{answer.newsletter_subscription !== null ? answer.newsletter_subscription : null}</p>
+                                        <p>sada</p>
+                                        <p className="text-[calc(2rem+1vw)]">{answer.newsletter_subscription ? currentAnswer.newsletter_subscription === true : null}</p>
                                     </div>
                                 )
                             })
