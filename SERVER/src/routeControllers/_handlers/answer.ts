@@ -104,7 +104,8 @@ const DB_editAnswerById = async (sessionId: string, newAnswer: any) => {
         if (DB_answerFound) {
             // Update each property
             for (let prop in newAnswer) {
-                if (newAnswer[prop]) (DB_answerFound as any)[prop] = newAnswer[prop];
+                // Allow null and DON'T validate the existence of the prop.
+                (DB_answerFound as any)[prop] = newAnswer[prop];
             };
 
             await DB_answerFound?.save();
