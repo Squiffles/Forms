@@ -9,30 +9,34 @@ function HomePage() {
     // COMPONENT:
     return (
         <main className="min-w-full min-h-screen flex justify-center items-center bg-white dark:bg-softBlack ">
-            <div className="w-[50%] h-[70%] flex flex-col justify-center items-center text-black dark:text-white">
-                <span className="relative">
-                    <h1 className="flex justify-between w-full text-[9rem] leading-[.75]">
+            <div className="w-[50%] xs:w-[80%] sm:w-[80%] md:w-[65%] lg:w-[60%] h-[70%] flex flex-col justify-center items-center text-black dark:text-white transition-all">
+                <span className="relative min-w-full">
+                    <h1 className="flex text-center items-center justify-between w-full text-[clamp(2rem,calc(1rem+12vw+1vh),8rem)] xs:text-[clamp(2rem,calc(1rem+10vw+1vh),8rem)] md:text-[clamp(2rem,calc(1rem+10vw+1vh),8rem)] transition-all duration-100">
                         <span>INPUT</span><span>IT</span>
                     </h1>
-                    <div className="flex justify-center items-center absolute bottom-4 -left-8 w-8 h-8 rotate-[-30deg] rounded-full bg-black dark:bg-white text-white dark:text-black font-[ultrabold] select-none transition-all duration-500 hover:rotate-0">
+                    <div className="flex justify-center items-center absolute bottom-[30%] -left-8 w-8 h-8 rotate-[-30deg] rounded-full bg-black dark:bg-white text-white dark:text-black font-[ultrabold] select-none transition-all duration-500 hover:rotate-0">
                         R
                     </div>
                 </span>
-                <p className="text-[1.5rem] text-justify px-[.5rem]">
-                    Tu opinión nos importa <u>mucho</u> y queremos saber más de ti para mejorar tu experiencia.
-                    <br />
-                    Please take your time to complete a <u>short form</u>.
-                </p>
+                {/* translate-y-[-50%] */}
+                {/* <div className="border-2 border-black rounded-3xl p-4"> */}
+                <div className="p-4 bg-black rounded-3xl shadow-reg-black hover:shadow-foc-black transform transition-all duration-300 hover:scale-[1.01] dark:bg-white dark:shadow-reg-white dark:hover:shadow-foc-white">
+                    <p className="text-white px-[.5rem] text-[calc(.5rem+1vw+.5vh)] text-justify dark:text-black">
+                        Tu opinión nos importa <u>mucho</u> y queremos saber más de ti para mejorar tu experiencia.
+                        <br />
+                        Por favor, toma tu tiempo para completar un <u>pequeño formulario</u>.
+                    </p>
+                </div>
                 <Link
                     to="/form"
                     className="mt-[1rem]"
                 >
-                    <button
-                        className="w-full pt-[1rem] pb-[.7rem] text-[3rem] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
-                    // onClick={ }
+                    <a
+                        role="button"
+                        className="block w-full mt-4 pt-[1rem] pb-[.6rem] px-4 text-center text-[clamp(1rem,calc(.5rem+5vw+0.5vh),3rem)] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
                     >
-                        FILL IT (the form)
-                    </button>
+                        Complétalo (el formulario)
+                    </a>
                 </Link>
             </div>
         </main>

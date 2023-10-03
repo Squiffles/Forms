@@ -123,7 +123,7 @@ function Results() {
             <div className="flex justify-center w-full">
                 <section className="grid grid-cols-3 gap-7 mx-[auto] w-[90%] scree">
                     {
-                        reduxAnswers === null ? (
+                        !reduxAnswers || !Array.isArray(reduxAnswers) ? (
                             null
                         ) : (
                             reduxAnswers.map((answer, index) => {
