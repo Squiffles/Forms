@@ -321,7 +321,7 @@ function Form() {
                                     <input
                                         key={index}
                                         id={option.value}
-                                        className="min-w-[1.5rem] bg-transparent outline-none text-[5.5rem]"
+                                        className="relative min-w-[1.5rem] bg-transparent outline-none text-[5.5rem] after:inline-block after:min-w-[1.5rem] after:min-h-[1.5rem] after:absolute after:top-1/2 after:left-0 after:-translate-y-1/2 after:bg-flame after:rounded-full"
                                         type={items[4].type}
                                         name="how_found"
                                         onChange={(e) => auxHandleInputChange(e, "HOW_FOUND")}
@@ -354,7 +354,7 @@ function Form() {
                     >{NEWSLETTER_SUBSCRIPTION.label}</label>
                     <input
                         id="newsletter_subscription"
-                        className="w-[1.5rem] bg-transparent outline-none checked:bg-flame form-radio"
+                        className="w-[1.5rem] bg-transparent outline-none checked:bg-flame form-radio accent-flame"
                         type={NEWSLETTER_SUBSCRIPTION.type}
                         checked={answer.newsletter_subscription === true}
                         required={NEWSLETTER_SUBSCRIPTION.required}
