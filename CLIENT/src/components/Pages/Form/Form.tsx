@@ -76,7 +76,7 @@ function Form() {
                         setIsEditing(false);
                         navigate('/form');
                     };
-                }
+                };
             } catch (error) {
                 // In case there's an error parsing an invalid JSON value: undefined, null...
                 setIsEditing(false);
@@ -177,23 +177,15 @@ function Form() {
         console.log(errors)
     }, [errors])
 
-    // useEffect(() => {
-    //     console.log(isValid)
-    // }, [isValid])
-
-    // useEffect(() => {
-    //     console.log({ reduxSessionId });
-    // }, [dispatch]);
-
 
     // ELEMENT:
     return (
-        <main className="flex flex-col items-center w-full min-h-screen bg-white dark:bg-black  text-black dark:text-white">
-            <header className="flex justify-between items-center w-full text-[4rem] leading-[1]">
+        <main className="flex flex-col items-center w-full min-h-screen bg-white dark:bg-black text-black dark:text-white">
+            <header className="flex justify-between items-center w-full text-[4rem]">
                 <span>INPUT</span><span>IT</span>
             </header>
             <form
-                className="flex flex-col gap-[5rem] w-[70%] mt-[5%]"
+                className="flex flex-col gap-[5rem] w-[50%] mt-[5%] text-[.75rem] text-black dark:text-white"
                 onSubmit={auxHandleSubmit}
             >
                 {/* 1) NAME */}
@@ -205,20 +197,21 @@ function Form() {
                     }
                     <label
                         htmlFor={NAME.name}
-                        className="text-[1.5rem]">{NAME.label}</label>
-                    <div className="relative w-full mt-4">
+                        className="text-[1.5rem] mb-2">{NAME.label}</label>
+                    <div className="relative w-full after:block after:absolute after:bottom-0 after:w-0 after:h-1 after:bg-flame focus:after:w-full">
                         <input
                             id={NAME.name}
-                            className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
+                            className="w-full bg-transparent text-[3rem]"
                             type={NAME.type}
                             value={answer.full_name}
                             onChange={(e) => auxHandleInputChange(e, "NAME")}
                             required={NAME.required}
                             spellCheck={false}
+                            autoFocus
                         />
-                        <div className="absolute w-full h-1 bg-black dark:bg-white" />
+                        <div className={`w-full h-1 mt-1 ${errors.fullNameError ||  !answer.full_name ? "bg-black dark:bg-white" : "bg-flame"}`} />
                     </div>
-                    <p>{errors.fullNameError}</p>
+                    <p className="mt-4 text-palidFlame">{errors.fullNameError}</p>
                 </section>
                 {/* 2) PHONE NUMBER */}
                 <section className="flex flex-col justify-start">
@@ -229,20 +222,20 @@ function Form() {
                     }
                     <label
                         htmlFor={PHONE_NUMBER.name}
-                        className="text-[1.5rem]">{PHONE_NUMBER.label}</label>
-                    <div className="relative w-full mt-4">
+                        className="text-[1.5rem] mb-2">{PHONE_NUMBER.label}</label>
+                    <div className="relative w-full">
                         <PhoneInput
                             id={PHONE_NUMBER.name}
-                            className="w-full bg-transparent outline-none text-[3rem] leading-[1]"
+                            className="w-full bg-transparent outline-none text-[3rem]"
                             type={PHONE_NUMBER.type}
                             value={answer.phone_number}
                             onChange={(newNumber) => auxHandleInputChange(newNumber, "PHONE_NUMBER")}
                             required={PHONE_NUMBER.required}
                             defaultCountry={countryCode}
                         />
-                        <div className="absolute w-full h-1 bg-black dark:bg-white" />
+                        <div className={`w-full h-1 mt-1 ${errors.phoneNumberError || !answer.phone_number ? "bg-black dark:bg-white" : "bg-flame"}`} />
                     </div>
-                    <p>{errors.phoneNumberError}</p>
+                    <p className="mt-4 text-palidFlame">{errors.phoneNumberError}</p>
                 </section>
                 {/* 3) START DATE */}
                 <section className="flex flex-col justify-start">
@@ -253,14 +246,14 @@ function Form() {
                     }
                     <label
                         htmlFor={START_DATE.name}
-                        className="text-[1.5rem]"
+                        className="text-[1.5rem] mb-2"
                     >
                         {START_DATE.label}
                     </label>
-                    <div className="relative w-full mt-4">
+                    <div className="relative w-full">
                         <input
                             id={START_DATE.name}
-                            className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
+                            className="w-full bg-transparent outline-none text-[3rem]"
                             type={START_DATE.type}
                             value={answer.start_date ? answer.start_date : ""}
                             min="2000-01-01"
@@ -268,9 +261,9 @@ function Form() {
                             onChange={(e) => auxHandleInputChange(e, "START_DATE")}
                             required={START_DATE.required}
                         />
-                        <div className="absolute w-full h-1 bg-black dark:bg-white" />
+                        <div className={`w-full h-1 mt-1 ${errors.startDateError || !answer.start_date ? "bg-black dark:bg-white" : "bg-flame"}`} />
                     </div>
-                    <p>{errors.startDateError}</p>
+                    <p className="mt-4 text-palidFlame">{errors.startDateError}</p>
                 </section>
                 {/* 4) PREFERRED LANGUAGE */}
                 <section className="flex flex-col justify-start">
@@ -281,28 +274,31 @@ function Form() {
                     }
                     <label
                         htmlFor={PREFERRED_LANGUAGE.name}
-                        className="text-[1.5rem]"
+                        className="text-[1.5rem] mb-2"
                     >
                         {PREFERRED_LANGUAGE.label}
                     </label>
                     <div className="relative w-full mt-4">
                         <select
                             id={PREFERRED_LANGUAGE.name}
-                            className="w-full bg-transparent outline-none text-[5.5rem] leading-[1]"
+                            className="w-full bg-transparent text-[3rem] py-3"
                             value={answer.preferred_language}
                             required={PREFERRED_LANGUAGE.required}
                             onChange={(e) => auxHandleInputChange(e, "PREFERRED_LANGUAGE")}
                         >
-                            <option value="" disabled></option>
+                            <option hidden value="" disabled></option>
                             {
                                 PREFERRED_LANGUAGE.options?.map((option, idx) => (
-                                    <option key={idx} value={option.value} >{option.label}</option>
+                                    <option
+                                        className="bg-white dark:bg-black text-black dark:text-white font-sans"
+                                        key={idx} value={option.value}
+                                    >{option.label}</option>
                                 ))
                             }
                         </select>
-                        <div className="absolute w-full h-1 bg-black dark:bg-white" />
+                        <div className={`w-full h-1 mt-1 ${errors.preferredLanguageError || !answer.preferred_language ? "bg-black dark:bg-white" : "bg-flame"}`} />
                     </div>
-                    <p>{errors.preferredLanguageError}</p>
+                    <p className="mt-4 text-palidFlame">{errors.preferredLanguageError}</p>
                 </section>
                 {/* 5) HOW FOUND */}
                 <section className="flex flex-col justify-start">
@@ -325,7 +321,7 @@ function Form() {
                                     <input
                                         key={index}
                                         id={option.value}
-                                        className="w-[30px] bg-transparent outline-none text-[5.5rem] leading-[1]"
+                                        className="min-w-[1.5rem] bg-transparent outline-none text-[5.5rem]"
                                         type={items[4].type}
                                         name="how_found"
                                         onChange={(e) => auxHandleInputChange(e, "HOW_FOUND")}
@@ -334,7 +330,7 @@ function Form() {
                                         required={items[4].required}
                                     />
                                     <label
-                                        className="text-[6rem] ml-4"
+                                        className="text-[3rem] ml-4"
                                         htmlFor={option.value}
                                     >
                                         {option.label}
@@ -342,7 +338,7 @@ function Form() {
                                 </span>
                             ))
                         }
-                        <p>{errors.howFoundError}</p>
+                        <p className="mt-4 text-palidFlame">{errors.howFoundError}</p>
                     </div>
                 </section>
                 {/* 6) NEWSLETTER SUBSCRIPTION */}
@@ -353,12 +349,12 @@ function Form() {
                         ) : null
                     }
                     <label
-                        className="text-[1rem]"
+                        className="text-[1rem] ml-4"
                         htmlFor="newsletter_subscription"
                     >{NEWSLETTER_SUBSCRIPTION.label}</label>
                     <input
                         id="newsletter_subscription"
-                        className="w-[50px] bg-transparent outline-none text-[6rem] leading-[1] checked:bg-flame form-radio"
+                        className="w-[1.5rem] bg-transparent outline-none checked:bg-flame form-radio"
                         type={NEWSLETTER_SUBSCRIPTION.type}
                         checked={answer.newsletter_subscription === true}
                         required={NEWSLETTER_SUBSCRIPTION.required}

@@ -65,27 +65,27 @@ const validateAnswer = (answer: Answer) => {
 
 
     // Name length must to be longer than 0, but shorter than 50.
-    if (!full_name) requiredFieldsErrors.fullNameError = "Este campo es obligatorio";
+    if (!full_name) requiredFieldsErrors.fullNameError = "Este campo es obligatorio.";
     if ((full_name.length < 2 || full_name.length > 50)) {
         errors.fullNameError = "Confirma que hayas ingresado el nombre correctamente.";
     };
 
     // Phone number length must be longer than 4, but shorter than 20.
-    if (!phone_number) requiredFieldsErrors.phoneNumberError = "Este campo es obligatorio";
+    if (!phone_number) requiredFieldsErrors.phoneNumberError = "Este campo es obligatorio.";
     if (phone_number === undefined || (phone_number && (phone_number.length < 4 || phone_number.length > 20))) {
-        errors.phoneNumberError = "Ingrese un número válido";
+        errors.phoneNumberError = "Ingrese un número válido.";
     };
 
     // Preferred language must be one of: "english", "spanish", "french", "german".
-    if (!preferred_language) requiredFieldsErrors.preferredLanguageError = "Este campo es obligatorio";
+    if (!preferred_language) requiredFieldsErrors.preferredLanguageError = "Este campo es obligatorio.";
     if (preferred_language && !preferredLanguageOptions.includes(preferred_language)) {
-        errors.preferredLanguageError = "Elija una de las opciones válidas";
+        errors.preferredLanguageError = "Elija una de las opciones válidas.";
     };
 
     // How found must be one of: "friends", "online_search", "advertisement".
-    if (!how_found) requiredFieldsErrors.howFoundError = "Este campo es obligatorio";
+    if (!how_found) requiredFieldsErrors.howFoundError = "Este campo es obligatorio.";
     if (how_found && !howFoundOptions.includes(how_found)) {
-        errors.howFoundError = "Elija una de las opciones válidas";
+        errors.howFoundError = "Elija una de las opciones válidas.";
     };
 
     return {

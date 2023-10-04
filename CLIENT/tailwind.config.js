@@ -11,7 +11,7 @@ export default {
         extend: {
             colors: {
                 "flame": "#FF6E36",
-                "palidFLame": "#D36135",
+                "palidFlame": "#D36135",
                 "softBlack": "#02020B",
                 "indigo": "#033F63",
                 "ashGray": "#C6D8D3",
