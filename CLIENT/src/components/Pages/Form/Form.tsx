@@ -1,6 +1,6 @@
 // --------------- IMPORTS ---------------
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 // import { useAppDispatch } from "../../redux/hooks";
 
 import { items } from "../../../services/data.json";
@@ -181,11 +181,19 @@ function Form() {
     // ELEMENT:
     return (
         <main className="flex flex-col items-center w-full min-h-screen bg-white dark:bg-black text-black dark:text-white">
-            <header className="flex justify-between items-center w-full text-[4rem]">
-                <span>INPUT</span><span>IT</span>
+            <header className="flex justify-between items-center w-full px-28 py-8 border-solid border-b-[1px] border-black dark:border-white">
+                <span className="text-[3rem]">INPUT IT</span>
+                <Link
+                    to="/"
+                    className="flex justify-center items-center w-[3.5rem] h-[3.5rem] rounded-full hover:bg-flame transition-colors"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" className="bi bi-x transition-colors" viewBox="0 0 16 16">
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                    </svg>
+                </Link>
             </header>
             <form
-                className="flex flex-col gap-[5rem] w-[50%] mt-[5%] text-[.75rem] text-black dark:text-white"
+                className="flex flex-col gap-[3rem] w-[50%] mt-[3rem] text-[.75rem] text-black dark:text-white"
                 onSubmit={auxHandleSubmit}
             >
                 {/* 1) NAME */}
@@ -209,7 +217,7 @@ function Form() {
                             spellCheck={false}
                             autoFocus
                         />
-                        <div className={`w-full h-1 mt-1 ${errors.fullNameError ||  !answer.full_name ? "bg-black dark:bg-white" : "bg-flame"}`} />
+                        <div className={`w-full h-1 mt-1 ${errors.fullNameError || !answer.full_name ? "bg-black dark:bg-white" : "bg-flame"} transition-colors duration-300`} />
                     </div>
                     <p className="mt-4 text-palidFlame">{errors.fullNameError}</p>
                 </section>
@@ -233,7 +241,7 @@ function Form() {
                             required={PHONE_NUMBER.required}
                             defaultCountry={countryCode}
                         />
-                        <div className={`w-full h-1 mt-1 ${errors.phoneNumberError || !answer.phone_number ? "bg-black dark:bg-white" : "bg-flame"}`} />
+                        <div className={`w-full h-1 mt-1 ${errors.phoneNumberError || !answer.phone_number ? "bg-black dark:bg-white" : "bg-flame"} transition-colors duration-300`} />
                     </div>
                     <p className="mt-4 text-palidFlame">{errors.phoneNumberError}</p>
                 </section>
@@ -253,7 +261,7 @@ function Form() {
                     <div className="relative w-full">
                         <input
                             id={START_DATE.name}
-                            className="w-full bg-transparent outline-none text-[3rem]"
+                            className="w-full bg-transparent outline-none text-[3rem] [color-scheme:auto]"
                             type={START_DATE.type}
                             value={answer.start_date ? answer.start_date : ""}
                             min="2000-01-01"
@@ -261,7 +269,7 @@ function Form() {
                             onChange={(e) => auxHandleInputChange(e, "START_DATE")}
                             required={START_DATE.required}
                         />
-                        <div className={`w-full h-1 mt-1 ${errors.startDateError || !answer.start_date ? "bg-black dark:bg-white" : "bg-flame"}`} />
+                        <div className={`w-full h-1 mt-1 ${errors.startDateError || !answer.start_date ? "bg-black dark:bg-white" : "bg-flame"} transition-colors duration-300`} />
                     </div>
                     <p className="mt-4 text-palidFlame">{errors.startDateError}</p>
                 </section>
@@ -296,7 +304,7 @@ function Form() {
                                 ))
                             }
                         </select>
-                        <div className={`w-full h-1 mt-1 ${errors.preferredLanguageError || !answer.preferred_language ? "bg-black dark:bg-white" : "bg-flame"}`} />
+                        <div className={`w-full h-1 mt-1 ${errors.preferredLanguageError || !answer.preferred_language ? "bg-black dark:bg-white" : "bg-flame"} transition-colors duration-300`} />
                     </div>
                     <p className="mt-4 text-palidFlame">{errors.preferredLanguageError}</p>
                 </section>
@@ -321,7 +329,7 @@ function Form() {
                                     <input
                                         key={index}
                                         id={option.value}
-                                        className="relative min-w-[1.5rem] bg-transparent outline-none text-[5.5rem] after:inline-block after:min-w-[1.5rem] after:min-h-[1.5rem] after:absolute after:top-1/2 after:left-0 after:-translate-y-1/2 after:bg-flame after:rounded-full"
+                                        className="relative min-w-[1.5rem] bg-transparent outline-none text-[5.5rem] accent-flame"
                                         type={items[4].type}
                                         name="how_found"
                                         onChange={(e) => auxHandleInputChange(e, "HOW_FOUND")}
@@ -362,7 +370,7 @@ function Form() {
                     />
                 </section>
                 <button
-                    className="w-full mt-[1rem] pt-[1rem] pb-[.35rem] text-[3rem] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+                    className={`w-full mt-[1rem] pt-[1rem] pb-[.35rem] text-[3rem] transition-all duration-200 ${isValid ? "bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black" : "bg-black dark:bg-white text-white dark:text-black"}`}
                     type="submit"
                     disabled={isValid ? false : true}
                 >
