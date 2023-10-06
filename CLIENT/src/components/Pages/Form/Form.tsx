@@ -181,35 +181,37 @@ function Form() {
     // ELEMENT:
     return (
         <main className="flex flex-col items-center w-full min-h-screen bg-white dark:bg-black text-black dark:text-white">
-            <header className="flex justify-between items-center w-full px-28 py-8 border-solid border-b-[1px] border-black dark:border-white">
-                <span className="text-[3rem]">INPUT IT</span>
-                <Link
-                    to="/"
-                    className="flex justify-center items-center w-[3.5rem] h-[3.5rem] rounded-full hover:bg-flame transition-colors"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" className="bi bi-x transition-colors" viewBox="0 0 16 16">
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                </Link>
+            <header className="flex justify-center w-full py-8 border-solid border-b-[1px] border-black dark:border-white">
+                <nav className="flex justify-between items-center w-[75%] xs:w-[80%]">
+                    <span className="text-[3rem] md:text-[3rem] sm:text-[2rem] xs:text-[1.5rem] transition-all">INPUT IT</span>
+                    <Link
+                        to="/"
+                        className="flex justify-center items-center w-[3.5rem] h-[3.5rem] xs:w-[1.5rem] xs:h-[1.5rem] sm:w-[3rem] sm:h-[3rem] md:w-[3.5rem] md:h-[3.5rem] rounded-full hover:bg-flame transition-colors"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" className="bi bi-x transition-colors xs:w-[2rem] xs:h-[2rem] sm:w-[2.5rem] sm:h-[2.5rem] md:w-[3rem] md:h-[3rem]" viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </Link>
+                </nav>
             </header>
             <form
-                className="flex flex-col gap-[3rem] w-[50%] mt-[3rem] text-[.75rem] text-black dark:text-white"
+                className="flex flex-col gap-[3rem] w-[50%] mt-[3rem] text-[.75rem] text-black dark:text-white lg:w-[50%] md:w-[60%] sm:w-[70%] xs:w-[80%] transition-all"
                 onSubmit={auxHandleSubmit}
             >
                 {/* 1) NAME */}
                 <section className="flex flex-col justify-start">
                     {
                         NAME.required ? (
-                            <p>*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
                         htmlFor={NAME.name}
-                        className="text-[1.5rem] mb-2">{NAME.label}</label>
+                        className="mb-2 text-[1.5rem] md:text-[1.5rem] sm:text-[1.25rem] xs:text-[1.25rem] transition-all">{NAME.label}</label>
                     <div className="relative w-full after:block after:absolute after:bottom-0 after:w-0 after:h-1 after:bg-flame focus:after:w-full">
                         <input
                             id={NAME.name}
-                            className="w-full bg-transparent text-[3rem]"
+                            className="w-full bg-transparent text-[3rem] md:text-[3rem] sm:text-[2rem] xs:text-[2rem] transition-all"
                             type={NAME.type}
                             value={answer.full_name}
                             onChange={(e) => auxHandleInputChange(e, "NAME")}
@@ -225,7 +227,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         PHONE_NUMBER.required ? (
-                            <p>*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
@@ -234,7 +236,7 @@ function Form() {
                     <div className="relative w-full">
                         <PhoneInput
                             id={PHONE_NUMBER.name}
-                            className="w-full bg-transparent outline-none text-[3rem]"
+                            className="w-full bg-transparent outline-none text-[3rem] md:text-[3rem] sm:text-[2rem] xs:text-[2rem] transition-all"
                             type={PHONE_NUMBER.type}
                             value={answer.phone_number}
                             onChange={(newNumber) => auxHandleInputChange(newNumber, "PHONE_NUMBER")}
@@ -249,7 +251,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         START_DATE.required ? (
-                            <p>*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
@@ -261,7 +263,7 @@ function Form() {
                     <div className="relative w-full">
                         <input
                             id={START_DATE.name}
-                            className="w-full bg-transparent outline-none text-[3rem] [color-scheme:auto]"
+                            className="w-full bg-transparent outline-none text-[3rem] md:text-[3rem] sm:text-[2rem] xs:text-[2rem] transition-all [color-scheme:auto]"
                             type={START_DATE.type}
                             value={answer.start_date ? answer.start_date : ""}
                             min="2000-01-01"
@@ -277,7 +279,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         PREFERRED_LANGUAGE.required ? (
-                            <p>*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
@@ -289,7 +291,7 @@ function Form() {
                     <div className="relative w-full mt-4">
                         <select
                             id={PREFERRED_LANGUAGE.name}
-                            className="w-full bg-transparent text-[3rem] py-3"
+                            className="w-full py-3 bg-transparent text-[3rem] md:text-[3rem] sm:text-[2rem] xs:text-[2rem] transition-all"
                             value={answer.preferred_language}
                             required={PREFERRED_LANGUAGE.required}
                             onChange={(e) => auxHandleInputChange(e, "PREFERRED_LANGUAGE")}
@@ -312,7 +314,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         HOW_FOUND.required ? (
-                            <p>*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
@@ -329,7 +331,7 @@ function Form() {
                                     <input
                                         key={index}
                                         id={option.value}
-                                        className="relative min-w-[1.5rem] bg-transparent outline-none text-[5.5rem] accent-flame"
+                                        className="relative min-w-[1.5rem] md:min-w-[1.5rem] sm:min-w-[1rem] xs:min-w-[.5rem] transition-all bg-transparent outline-none text-[5.5rem] accent-flame"
                                         type={items[4].type}
                                         name="how_found"
                                         onChange={(e) => auxHandleInputChange(e, "HOW_FOUND")}
@@ -338,7 +340,7 @@ function Form() {
                                         required={items[4].required}
                                     />
                                     <label
-                                        className="text-[3rem] ml-4"
+                                        className="text-[3rem] md:text-[3rem] sm:text-[2rem] xs:text-[2rem] transition-all ml-4"
                                         htmlFor={option.value}
                                     >
                                         {option.label}
@@ -353,7 +355,7 @@ function Form() {
                 <section className="flex flex-row-reverse justify-end">
                     {
                         NEWSLETTER_SUBSCRIPTION.required ? (
-                            <p>*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
                         ) : null
                     }
                     <label
