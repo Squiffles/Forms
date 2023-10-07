@@ -136,6 +136,7 @@ function Form() {
 
     // LIFE CYCLES:
     useEffect(() => {
+        console.log("request started");
         // Fetch the country code, to make the form friendlier.
         (async () => {
             const response = await getCountryCode();
@@ -331,7 +332,7 @@ function Form() {
                                     <input
                                         key={index}
                                         id={option.value}
-                                        className="relative min-w-[1.5rem] md:min-w-[1.5rem] sm:min-w-[1rem] xs:min-w-[.5rem] transition-all bg-transparent outline-none text-[5.5rem] accent-flame"
+                                        className="relative w-[1.5rem] md:w-[1.5rem] sm:w-[1rem] xs:w-[.75rem] transition-all bg-transparent outline-none text-[5.5rem] accent-flame"
                                         type={items[4].type}
                                         name="how_found"
                                         onChange={(e) => auxHandleInputChange(e, "HOW_FOUND")}
@@ -340,7 +341,7 @@ function Form() {
                                         required={items[4].required}
                                     />
                                     <label
-                                        className="text-[3rem] md:text-[3rem] sm:text-[2rem] xs:text-[2rem] transition-all ml-4"
+                                        className="text-[3rem] md:text-[3rem] sm:text-[2rem] xs:text-[2rem] transition-all ml-4 ['font-family: consolas']"
                                         htmlFor={option.value}
                                     >
                                         {option.label}

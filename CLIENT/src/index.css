@@ -39,7 +39,6 @@ body {
     font-family: inherit;
     /* cursor: pointer; */
     transition: border-color 0.25s;
-    --PhoneInputCountryFlag-height: 2.5rem;
 }
 
 .PhoneInputInput {
