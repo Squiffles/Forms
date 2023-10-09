@@ -100,44 +100,47 @@ function Results() {
                     </Link>
                 </nav>
             </header>
-            <div className="flex w-full mt-10">
-                <section className="flex flex-col items-center relative w-[80%]">
-                    <h1 className="text-[4rem]">This is your last answer</h1>
-                    <div className="flex flex-col items-center w-[60%]">
+            <div className="flex w-full my-10 xs&sm:flex-col-reverse xs&sm:items-center">
+                <section className="flex flex-col items-center relative w-[75%] xs&sm:w-full">
+                    <h1 className="mb-8 w-[90%] text-[clamp(1rem,calc(1rem+4vw+1vh),5rem)] text-center leading-tight">This is your last answer</h1>
+                    <div className="flex flex-col items-center w-[60%] xs&sm:w-[90%]">
                         {/* RECREATE THE FORM */}
                         {
                             localStorage.getItem("sessionId") && (
-                                <div className="w-full p-10 border border-x-2 border-t-2 rounded-xl border-black dark:border-white">
+                                <div className="[&>p]:text-[calc(2rem+1vw)] [&>p]:text-ellipsis [&>p]:overflow-hidden w-full p-10 border border-x-2 border-t-2 rounded-xl border-black dark:border-white">
                                     <label>{NAME.label}</label>
-                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{currentAnswer.full_name}</p>
+                                    <p>{currentAnswer.full_name}</p>
                                     <label className="mt-4">{PHONE_NUMBER.label}</label>
-                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{currentAnswer.phone_number}</p>
-                                    <label className={`mt-4 ${currentAnswer.start_date === null ? 'line-through' : ''}`}>{START_DATE.label}</label>
-                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{currentAnswer.start_date ? currentAnswer.start_date : null}</p>
+                                    <p>{currentAnswer.phone_number}</p>
+                                    <label className={`mt-4 ${currentAnswer.start_date === null ? 'line-through opacity-50' : ''}`}>{START_DATE.label}</label>
+                                    <p>{currentAnswer.start_date ? currentAnswer.start_date : null}</p>
                                     <label className="mt-4">{PREFERRED_LANGUAGE.label}</label>
-                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{mapOptionValuesToLabels("preferred_language", currentAnswer.preferred_language)}</p>
+                                    <p>{mapOptionValuesToLabels("preferred_language", currentAnswer.preferred_language)}</p>
                                     <label className="mt-4">{HOW_FOUND.label}</label>
-                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{mapOptionValuesToLabels("how_found", currentAnswer.how_found)}</p>
-                                    <label className={`mt-4 ${currentAnswer.newsletter_subscription === null ? 'line-through' : ''}`}>{NEWSLETTER_SUBSCRIPTION.label}</label>
-                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{currentAnswer.newsletter_subscription ? (currentAnswer.newsletter_subscription === true ? "Sí" : null) : null}</p>
+                                    <p>{mapOptionValuesToLabels("how_found", currentAnswer.how_found)}</p>
+                                    <label className={`mt-4 ${currentAnswer.newsletter_subscription === null ? 'line-through opacity-50' : ''}`}>{NEWSLETTER_SUBSCRIPTION.label}</label>
+                                    <p>{currentAnswer.newsletter_subscription === true ? "Sí" : null}</p>
+                                    <button
+                                        className="w-full mt-8 pt-[1rem] pb-[.35rem] text-[3rem] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+                                        onClick={handleEditButton}
+                                    >
+                                        EDIT
+                                    </button>
                                 </div>
                             )
                         }
-                        <button
-                            className="pt-[1rem] pb-[.35rem] text-[3rem] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
-                            onClick={handleEditButton}
-                        >
-                            EDIT
-                        </button>
                     </div>
                 </section>
-                <div>
-                    <p>(scroll down)</p>
-                    <h2 className="text-[4rem]">Review<br />other<br />inputs</h2>
+                <div className="sticky overflow-hidden top-8 h-1/2 pt-4 border-white xs&sm:static xs&sm:pt-0 xs&sm:w-[90%]">
+                    <p className="mb-4 text-flame text-[clamp(0.5rem,calc(0.25rem+1vw+1vh),1rem)] animate-pulse xs&sm:mb-1">(scroll down)</p>
+                    <h2 className="text-[clamp(0.5rem,calc(.5rem+2vw+1vh),3rem)] leading-tight xs&sm:mb-8">
+                        Review<br className="xs&sm:hidden" /> other<br className="xs&sm:hidden" /> inputs
+                    </h2>
                 </div>
             </div>
-            <div className="flex justify-center w-full">
-                <section className="grid grid-cols-3 gap-7 mx-[auto] w-[90%] scree">
+            <hr />
+            <div className="flex justify-center w-full mt-10">
+                <section className="grid grid-cols-3 gap-7 mx-[auto] w-[90%] md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1">
                     {
                         !reduxAnswers || !Array.isArray(reduxAnswers) ? (
                             null
@@ -146,20 +149,20 @@ function Results() {
                                 return (
                                     <div
                                         key={index}
-                                        className="flex flex-1 flex-col p-10 border border-black dark:border-white rounded-xl"
+                                        className="[&>p]:text-[calc(1rem+1vw)] [&>p]:text-ellipsis [&>p]:overflow-hidden flex flex-1 flex-col p-10 border border-black dark:border-white rounded-xl"
                                     >
                                         <label>{NAME.label}</label>
-                                        <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{answer.full_name}</p>
+                                        <p>{answer.full_name}</p>
                                         <label className="mt-4">{PHONE_NUMBER.label}</label>
-                                        <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{answer.phone_number}</p>
-                                        <label className={`mt-4 ${answer.start_date === null ? 'line-through' : ''}`}>{START_DATE.label}</label>
-                                        <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{answer.start_date ? answer.start_date : null}</p>
+                                        <p>{answer.phone_number}</p>
+                                        <label className={`mt-4 ${answer.start_date === null ? 'line-through opacity-50' : ''}`}>{START_DATE.label}</label>
+                                        <p>{answer.start_date ? answer.start_date : null}</p>
                                         <label className="mt-4">{PREFERRED_LANGUAGE.label}</label>
-                                        <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{mapOptionValuesToLabels("preferred_language", answer.preferred_language)}</p>
+                                        <p>{mapOptionValuesToLabels("preferred_language", answer.preferred_language)}</p>
                                         <label className="mt-4">{HOW_FOUND.label}</label>
-                                        <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{mapOptionValuesToLabels("how_found", answer.how_found)}</p>
-                                        <label className={`mt-4 ${answer.newsletter_subscription === null ? 'line-through' : ''}`}>{NEWSLETTER_SUBSCRIPTION.label}</label>
-                                        <p className="text-[calc(2rem+1vw)]">{answer.newsletter_subscription ? currentAnswer.newsletter_subscription === true : null}</p>
+                                        <p>{mapOptionValuesToLabels("how_found", answer.how_found)}</p>
+                                        <label className={`mt-4 ${answer.newsletter_subscription === null ? 'line-through opacity-50' : ''}`}>{NEWSLETTER_SUBSCRIPTION.label}</label>
+                                        <p >{answer.newsletter_subscription === true ? "Sí" : null}</p>
                                     </div>
                                 )
                             })
