@@ -57,7 +57,7 @@ const handleSubmit = async (event: any, answer: any, isEditing: boolean, isValid
         const parsedSessionId = JSON.parse(sessionId);
 
         const success = await editAnswerByIdRequest(parsedSessionId, answer);
-        if (success === true) navigate("/results");
+        if (success) navigate("/success");
         else window.alert("There was a problem trying to edit your answer");
 
     } else {
@@ -66,16 +66,16 @@ const handleSubmit = async (event: any, answer: any, isEditing: boolean, isValid
             // The controller generates an uuid which will be used for storing this key in redux and retrieving the right form so the user can edit it.
             const response = await postAnswerRequest(answer);
             if (response.success) {
-                navigate("/results");
+                navigate("/success");
                 // dispatch(setSessionId(response.data.session_id));
                 const sessionId = JSON.stringify(response.data.session_id);
                 localStorage.setItem("sessionId", sessionId);
                 console.log(sessionId);
-            }
+            };
         };
     };
     return;
-}
+};
 
 
 // --------------- EXPORTS ---------------

@@ -5,9 +5,12 @@ import axios from "axios";
 // --------------- REQUESTS ---------------
 const getAllAnswersRequest = async (): Promise<any> => {
     try {
+        console.log("making axios request ...")
+
         const { data } = await axios.get("answer");
 
         if (data.success) {
+            console.log("sent to redux.")
             return data.data;
 
         } else if (data.error) {

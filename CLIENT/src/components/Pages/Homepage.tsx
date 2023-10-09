@@ -22,9 +22,6 @@ function HomePage() {
                         </div>
                         <span className="translate-y-2 xs:translate-y-[0.35rem] transition-transform">IT</span>
                     </h1>
-                    {/* <div className="flex justify-center items-center absolute bottom-[30%] -left-8 w-8 sm:w-6 xs:w-6 h-8 sm:h-6 xs:h-6 rotate-[-30deg] rounded-full bg-black dark:bg-white text-white dark:text-black font-[ultrabold] select-none transition-all duration-500 hover:rotate-0">
-                        R
-                    </div> */}
                 </span>
                 <div className="p-4 bg-black rounded-3xl shadow-reg-black hover:shadow-foc-black transform transition-all duration-300 hover:scale-[1.01] dark:bg-white dark:shadow-reg-white dark:hover:shadow-foc-white">
                     <p className="text-white px-[.5rem] text-[calc(.5rem+1vw+.5vh)] text-justify dark:text-black">
@@ -35,11 +32,11 @@ function HomePage() {
                 </div>
                 <Link
                     to="/form"
-                    className="mt-[1rem]"
+                    className="mt-8"
                 >
                     <a
                         role="button"
-                        className="block w-full mt-4 pt-[1rem] pb-[.6rem] px-4 text-center text-[clamp(1rem,calc(.5rem+5vw+0.5vh),3rem)] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+                        className="block w-full pt-[1rem] pb-[.6rem] px-4 text-center text-[clamp(1rem,calc(.5rem+5vw+0.5vh),3rem)] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
                     >
                         Fill it (the form)
                     </a>

@@ -6,7 +6,9 @@ import { getAllAnswersRequest } from "../services/requests/answer";
 // --------------- MIDDLEWARES ---------------
 const getAllAnswers = createAsyncThunk("root/fetchAnswers", async () => {
     try {
+        console.log("making request ...");
         const answers = await getAllAnswersRequest();
+        console.log("finished");
         return answers;
     } catch (error) {
         throw error;

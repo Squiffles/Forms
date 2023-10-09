@@ -1,4 +1,6 @@
 // --------------- IMPORTS ---------------
+import { Link } from "react-router-dom";
+
 
 
 // --------------- COMPONENT ---------------
@@ -22,22 +24,23 @@ function Success() {
                         </div>
                         <span className="translate-y-1 xs:translate-y-[0.17rem] transition-transform">IT</span>
                     </h1>
-                    {/* <div className="flex justify-center items-center absolute bottom-[30%] -left-8 w-8 sm:w-6 xs:w-6 h-8 sm:h-6 xs:h-6 rotate-[-30deg] rounded-full bg-black dark:bg-white text-white dark:text-black font-[ultrabold] select-none transition-all duration-500 hover:rotate-0">
-                        R
-                    </div> */}
                 </span>
                 <h2 className="flex text-center items-center justify-between w-full text-[clamp(2rem,calc(1rem+12vw+1vh),8rem)] xs:text-[clamp(2rem,calc(1rem+10vw+1vh),8rem)] md:text-[clamp(2rem,calc(1rem+10vw+1vh),8rem)] lg:text-[clamp(2rem,calc(1rem+9vw+1vh),8rem)] transition-all duration-100">
-                    <span>THANKS</span><span>!</span>
+                    <span>Gracias</span><span>!</span>
                 </h2>
                 <p className="w-full text-[calc(.5rem+1vw+.5vh)] text-right">
                     por tu respuesta.
                 </p>
-                <button
-                    className="block w-full mt-4 pt-[1rem] pb-[.6rem] px-4 text-center text-[clamp(1rem,calc(.5rem+5vw+0.5vh),3rem)] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
-                // onClick={ }
+                <Link
+                    to="/results"
+                    className="mt-4"
                 >
-                    Revisa las demás respuestas
-                </button>
+                    <a
+                        className="block w-full pt-[1rem] pb-[.6rem] px-4 text-center text-[clamp(1rem,calc(.5rem+5vw+0.5vh),3rem)] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+                    >
+                        Revisa las demás respuestas
+                    </a>
+                </Link>
                 <p className="mt-4 text-[calc(.5rem+1vw+.5vh)] text-justify px-[.5rem]">
                     Estas a tiempo de cambiar tu respuesta. Haz click arriba.
                 </p>

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { getAllAnswers } from "../../redux/rootReducer";
 import { getAnswerByIdRequest } from "../../services/requests/answer";
 import { items } from "../../services/data.json";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 
 const NAME = items[0];
@@ -51,6 +51,7 @@ function Results() {
 
     const sessionId = (localStorage.getItem("sessionId"));
 
+
     // LIFE CYCLES:
     useEffect(() => {
         try {
@@ -66,6 +67,8 @@ function Results() {
                 })();
             }
         } catch (error) {
+            console.log(error);
+            console.log("error localstorage");
             localStorage.setItem("sessionId", "");
         };
 
@@ -81,8 +84,21 @@ function Results() {
     // COMPONENT:
     return (
         <main className="flex flex-col w-full min-h-screen bg-white dark:bg-black text-black dark:text-white">
-            <header className="flex justify-between items-center w-full text-[4rem] leading-[1]">
+            {/* <header className="flex justify-between items-center w-full text-[4rem] leading-[1]">
                 <span>INPUT</span><span>IT</span>
+            </header> */}
+            <header className="flex justify-center w-full py-8 border-solid border-b-[1px] border-black dark:border-white">
+                <nav className="flex justify-between items-center w-[75%] xs:w-[80%]">
+                    <span className="text-[3rem] md:text-[3rem] sm:text-[2rem] xs:text-[1.5rem] transition-all">INPUT IT</span>
+                    <Link
+                        to="/"
+                        className="flex justify-center items-center w-[3.5rem] h-[3.5rem] xs:w-[1.5rem] xs:h-[1.5rem] sm:w-[3rem] sm:h-[3rem] md:w-[3.5rem] md:h-[3.5rem] rounded-full hover:bg-flame transition-colors"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" className="bi bi-x transition-colors xs:w-[2rem] xs:h-[2rem] sm:w-[2.5rem] sm:h-[2.5rem] md:w-[3rem] md:h-[3rem]" viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </Link>
+                </nav>
             </header>
             <div className="flex w-full mt-10">
                 <section className="flex flex-col items-center relative w-[80%]">
@@ -93,17 +109,17 @@ function Results() {
                             localStorage.getItem("sessionId") && (
                                 <div className="w-full p-10 border border-x-2 border-t-2 rounded-xl border-black dark:border-white">
                                     <label>{NAME.label}</label>
-                                    <p className="text-[calc(2rem+1vw)]">{currentAnswer.full_name}</p>
+                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{currentAnswer.full_name}</p>
                                     <label className="mt-4">{PHONE_NUMBER.label}</label>
-                                    <p className="text-[calc(2rem+1vw)]">{currentAnswer.phone_number}</p>
+                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{currentAnswer.phone_number}</p>
                                     <label className={`mt-4 ${currentAnswer.start_date === null ? 'line-through' : ''}`}>{START_DATE.label}</label>
-                                    <p className="text-[calc(2rem+1vw)]">{currentAnswer.start_date ? currentAnswer.start_date : null}</p>
+                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{currentAnswer.start_date ? currentAnswer.start_date : null}</p>
                                     <label className="mt-4">{PREFERRED_LANGUAGE.label}</label>
-                                    <p className="text-[calc(2rem+1vw)]">{mapOptionValuesToLabels("preferred_language", currentAnswer.preferred_language)}</p>
+                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{mapOptionValuesToLabels("preferred_language", currentAnswer.preferred_language)}</p>
                                     <label className="mt-4">{HOW_FOUND.label}</label>
-                                    <p className="text-[calc(2rem+1vw)]">{mapOptionValuesToLabels("how_found", currentAnswer.how_found)}</p>
+                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{mapOptionValuesToLabels("how_found", currentAnswer.how_found)}</p>
                                     <label className={`mt-4 ${currentAnswer.newsletter_subscription === null ? 'line-through' : ''}`}>{NEWSLETTER_SUBSCRIPTION.label}</label>
-                                    <p className="text-[calc(2rem+1vw)]">{currentAnswer.newsletter_subscription ? (currentAnswer.newsletter_subscription === true ? "Sí" : null) : null}</p>
+                                    <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{currentAnswer.newsletter_subscription ? (currentAnswer.newsletter_subscription === true ? "Sí" : null) : null}</p>
                                 </div>
                             )
                         }
@@ -133,17 +149,16 @@ function Results() {
                                         className="flex flex-1 flex-col p-10 border border-black dark:border-white rounded-xl"
                                     >
                                         <label>{NAME.label}</label>
-                                        <p className="text-[calc(2rem+1vw)]">{answer.full_name}</p>
+                                        <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{answer.full_name}</p>
                                         <label className="mt-4">{PHONE_NUMBER.label}</label>
-                                        <p className="text-[calc(2rem+1vw)]">{answer.phone_number}</p>
+                                        <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{answer.phone_number}</p>
                                         <label className={`mt-4 ${answer.start_date === null ? 'line-through' : ''}`}>{START_DATE.label}</label>
-                                        <p className="text-[calc(2rem+1vw)]">{answer.start_date ? answer.start_date : null}</p>
+                                        <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{answer.start_date ? answer.start_date : null}</p>
                                         <label className="mt-4">{PREFERRED_LANGUAGE.label}</label>
-                                        <p className="text-[calc(2rem+1vw)]">{mapOptionValuesToLabels("preferred_language", answer.preferred_language)}</p>
+                                        <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{mapOptionValuesToLabels("preferred_language", answer.preferred_language)}</p>
                                         <label className="mt-4">{HOW_FOUND.label}</label>
-                                        <p className="text-[calc(2rem+1vw)]">{mapOptionValuesToLabels("how_found", answer.how_found)}</p>
+                                        <p className="text-[calc(2rem+1vw)] text-ellipsis overflow-hidden">{mapOptionValuesToLabels("how_found", answer.how_found)}</p>
                                         <label className={`mt-4 ${answer.newsletter_subscription === null ? 'line-through' : ''}`}>{NEWSLETTER_SUBSCRIPTION.label}</label>
-                                        <p>sada</p>
                                         <p className="text-[calc(2rem+1vw)]">{answer.newsletter_subscription ? currentAnswer.newsletter_subscription === true : null}</p>
                                     </div>
                                 )
