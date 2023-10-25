@@ -109,7 +109,7 @@ function Results() {
                                     <label className="mt-4">{HOW_FOUND.label}</label>
                                     <p>{mapOptionValuesToLabels("how_found", currentAnswer.how_found)}</p>
                                     <label className={`mt-4 ${currentAnswer.newsletter_subscription === null ? 'line-through opacity-50' : ''}`}>{NEWSLETTER_SUBSCRIPTION.label}</label>
-                                    <p>{currentAnswer.newsletter_subscription === true ? "Sí" : null}</p>
+                                    <p>{currentAnswer.newsletter_subscription === true ? "Yes" : null}</p>
                                     <button
                                         className="w-full mt-8 pt-[1rem] pb-[.35rem] text-[3rem] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
                                         onClick={handleEditButton}
@@ -152,7 +152,7 @@ function Results() {
                                         <label className="mt-4">{HOW_FOUND.label}</label>
                                         <p>{mapOptionValuesToLabels("how_found", answer.how_found)}</p>
                                         <label className={`mt-4 ${answer.newsletter_subscription === null ? 'line-through opacity-50' : ''}`}>{NEWSLETTER_SUBSCRIPTION.label}</label>
-                                        <p >{answer.newsletter_subscription === true ? "Sí" : null}</p>
+                                        <p >{answer.newsletter_subscription === true ? "Yes" : null}</p>
                                     </div>
                                 )
                             })

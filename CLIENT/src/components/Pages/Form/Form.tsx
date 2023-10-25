@@ -93,6 +93,7 @@ function Form() {
     const PREFERRED_LANGUAGE = items[3];
     const HOW_FOUND = items[4];
     const NEWSLETTER_SUBSCRIPTION = items[5];
+    const REQUIRED_MESSAGE = "*This input is required";
 
 
     // GLOBAL STATES:
@@ -193,7 +194,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         NAME.required ? (
-                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">{REQUIRED_MESSAGE}</p>
                         ) : null
                     }
                     <label
@@ -218,7 +219,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         PHONE_NUMBER.required ? (
-                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">{REQUIRED_MESSAGE}</p>
                         ) : null
                     }
                     <label
@@ -242,7 +243,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         START_DATE.required ? (
-                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">{REQUIRED_MESSAGE}</p>
                         ) : null
                     }
                     <label
@@ -270,7 +271,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         PREFERRED_LANGUAGE.required ? (
-                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">{REQUIRED_MESSAGE}</p>
                         ) : null
                     }
                     <label
@@ -305,7 +306,7 @@ function Form() {
                 <section className="flex flex-col justify-start">
                     {
                         HOW_FOUND.required ? (
-                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">{REQUIRED_MESSAGE}</p>
                         ) : null
                     }
                     <label
@@ -346,7 +347,7 @@ function Form() {
                 <section className="flex flex-row-reverse justify-end">
                     {
                         NEWSLETTER_SUBSCRIPTION.required ? (
-                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">*Este campo es obligatorio</p>
+                            <p className="text-[.75rem] sm:text-[.75rem] xs:text-[.5rem] transition-all">{REQUIRED_MESSAGE}</p>
                         ) : null
                     }
                     <label
@@ -368,7 +369,7 @@ function Form() {
                     disabled={isValid ? false : true}
                 >
                     {
-                        isEditing ? "EDITAR" : "ENVIAR"
+                        isEditing ? "EDIT" : "SEND"
                     }
                 </button>
             </form>

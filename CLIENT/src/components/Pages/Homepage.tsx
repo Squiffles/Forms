@@ -25,9 +25,9 @@ function HomePage() {
                 </span>
                 <div className="p-4 bg-black rounded-3xl shadow-reg-black hover:shadow-foc-black transform transition-all duration-300 hover:scale-[1.01] dark:bg-white dark:shadow-reg-white dark:hover:shadow-foc-white">
                     <p className="text-white px-[.5rem] text-[calc(.5rem+1vw+.5vh)] text-justify dark:text-black">
-                        Tu opinión nos importa <u>mucho</u> y queremos saber más de ti para mejorar tu experiencia.
+                        Your input <u>matters</u> to us and we'd like to know more about you to improve your experience.
                         <br />
-                        Por favor, toma tu tiempo para completar un <u>pequeño formulario</u>.
+                        Please, take your time to fill a <u>short form</u>.
                     </p>
                 </div>
                 <Link

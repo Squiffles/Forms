@@ -2,41 +2,41 @@
     "items": [
         {
             "type": "text",
-            "label": "Nombre completo",
+            "label": "Full name",
             "name": "full_name",
             "required": true
         },
         {
             "type": "tel",
-            "label": "Número de teléfono",
+            "label": "Phone number",
             "name": "phone_number",
             "required": true
         },
         {
             "type": "date",
-            "label": "Fecha de inicio",
+            "label": "Start date",
             "name": "start_date",
             "required": false
         },
         {
             "type": "select",
-            "label": "¿Cuál es tu idioma preferido?",
+            "label": "What's your preferred language?",
             "name": "preferred_language",
             "options": [
                 {
-                    "label": "Inglés",
+                    "label": "English",
                     "value": "english"
                 },
                 {
-                    "label": "Español",
+                    "label": "Spanish",
                     "value": "spanish"
                 },
                 {
-                    "label": "Francés",
+                    "label": "French",
                     "value": "french"
                 },
                 {
-                    "label": "Alemán",
+                    "label": "German",
                     "value": "german"
                 }
             ],
@@ -44,19 +44,19 @@
         },
         {
             "type": "radio",
-            "label": "¿Cómo nos encontraste?",
+            "label": "How did you find us?",
             "name": "how_found",
             "options": [
                 {
-                    "label": "Amigos",
+                    "label": "Friends",
                     "value": "friends"
                 },
                 {
-                    "label": "Búsqueda en línea",
+                    "label": "Online search",
                     "value": "online_search"
                 },
                 {
-                    "label": "Publicidad",
+                    "label": "Advertisement",
                     "value": "advertisement"
                 }
             ],
@@ -64,13 +64,13 @@
         },
         {
             "type": "checkbox",
-            "label": "¿Desea recibir nuestro boletín informativo?",
+            "label": "Would you like to receive our newsletter?",
             "name": "newsletter_subscription",
             "required": false
         },
         {
             "type": "submit",
-            "label": "Enviar"
+            "label": "Send"
         }
     ]
 }

@@ -26,10 +26,10 @@ function Success() {
                     </h1>
                 </span>
                 <h2 className="flex text-center items-center justify-between w-full text-[clamp(2rem,calc(1rem+12vw+1vh),8rem)] xs:text-[clamp(2rem,calc(1rem+10vw+1vh),8rem)] md:text-[clamp(2rem,calc(1rem+10vw+1vh),8rem)] lg:text-[clamp(2rem,calc(1rem+9vw+1vh),8rem)] transition-all duration-100">
-                    <span>Gracias</span><span>!</span>
+                    <span>THANKS</span><span>!</span>
                 </h2>
                 <p className="w-full text-[calc(.5rem+1vw+.5vh)] text-right">
-                    por tu respuesta.
+                    for your answer.
                 </p>
                 <Link
                     to="/results"
@@ -38,11 +38,11 @@ function Success() {
                     {/* <a
                         className="block w-full pt-[1rem] pb-[.6rem] px-4 text-center text-[clamp(1rem,calc(.5rem+5vw+0.5vh),3rem)] transition-all duration-200 bg-flame hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
                     > */}
-                        Revisa las demás respuestas
+                    Review other inputs
                     {/* </a> */}
                 </Link>
                 <p className="mt-4 text-[calc(.5rem+1vw+.5vh)] text-justify px-[.5rem]">
-                    Estás a tiempo de cambiar tu respuesta. Haz click arriba.
+                    You're on time to change your answer. Click above.
                 </p>
             </div>
         </main>
