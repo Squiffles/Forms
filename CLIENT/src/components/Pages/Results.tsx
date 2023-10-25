@@ -1,11 +1,13 @@
 // --------------- IMPORTS ---------------
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+
 import { getAllAnswers } from "../../redux/rootReducer";
 import { getAnswerByIdRequest } from "../../services/requests/answer";
 import { items } from "../../services/data.json";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+import Header from "../Layouts/Header";
 
 const NAME = items[0];
 const PHONE_NUMBER = items[1];
@@ -57,27 +59,27 @@ function Results() {
         try {
             if (sessionId) {
                 const parsedSessionId = JSON.parse(sessionId);
-                console.log(sessionId);
+                // console.log(sessionId);
                 (async () => {
                     const currentAnswer = await getAnswerByIdRequest(parsedSessionId);
                     if (currentAnswer.success) {
-                        console.log(currentAnswer);
+                        // console.log(currentAnswer);
                         setCurrentAnswer(currentAnswer.data);
                     };
                 })();
             }
         } catch (error) {
-            console.log(error);
-            console.log("error localstorage");
+            // console.log(error);
+            // console.log("error localstorage");
             localStorage.setItem("sessionId", "");
         };
 
         dispatch(getAllAnswers());
-        console.log(reduxAnswers);
+        // console.log(reduxAnswers);
     }, []);
 
     useEffect(() => {
-        console.log(currentAnswer)
+        // console.log(currentAnswer)
     }, [currentAnswer])
 
 
@@ -87,19 +89,7 @@ function Results() {
             {/* <header className="flex justify-between items-center w-full text-[4rem] leading-[1]">
                 <span>INPUT</span><span>IT</span>
             </header> */}
-            <header className="flex justify-center w-full py-8 border-solid border-b-[1px] border-black dark:border-white">
-                <nav className="flex justify-between items-center w-[75%] xs:w-[80%]">
-                    <span className="text-[3rem] md:text-[3rem] sm:text-[2rem] xs:text-[1.5rem] transition-all">INPUT IT</span>
-                    <Link
-                        to="/"
-                        className="flex justify-center items-center w-[3.5rem] h-[3.5rem] xs:w-[1.5rem] xs:h-[1.5rem] sm:w-[3rem] sm:h-[3rem] md:w-[3.5rem] md:h-[3.5rem] rounded-full hover:bg-flame transition-colors"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" fill="currentColor" className="bi bi-x transition-colors xs:w-[2rem] xs:h-[2rem] sm:w-[2.5rem] sm:h-[2.5rem] md:w-[3rem] md:h-[3rem]" viewBox="0 0 16 16">
-                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                        </svg>
-                    </Link>
-                </nav>
-            </header>
+            <Header />
             <div className="flex w-full my-10 xs&sm:flex-col-reverse xs&sm:items-center">
                 <section className="flex flex-col items-center relative w-[75%] xs&sm:w-full">
                     <h1 className="mb-8 w-[90%] text-[clamp(1rem,calc(1rem+4vw+1vh),5rem)] text-center leading-tight">This is your last answer</h1>
@@ -140,7 +130,7 @@ function Results() {
             </div>
             <hr />
             <div className="flex justify-center w-full mt-10">
-                <section className="grid grid-cols-3 gap-7 mx-[auto] w-[90%] md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1">
+                <section className="grid grid-cols-3 gap-7 mx-[auto] w-[90%] xs:grid-cols-1 sm:grid-cols-1 smd:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                     {
                         !reduxAnswers || !Array.isArray(reduxAnswers) ? (
                             null

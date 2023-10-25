@@ -26,6 +26,8 @@ export default {
             screens: {
                 'xs': { 'max': '467px' },
                 'sm': { 'min': '468px' },
+                // used for results grid.
+                'smd': { 'min': '650px', 'max': '767px'},
                 'xs&sm': { 'max': '767px' },
                 'md': { 'min': '768px' },
                 'lg': { 'min': '1024px' },

@@ -13,9 +13,9 @@ const { LOCAL_SERVER_PORT } = process.env;
 db.sequelize.sync({ force: false })
     .then(() => {
         server.listen(LOCAL_SERVER_PORT, () => {
-            console.log(`Server listening to port: ${LOCAL_SERVER_PORT}`);
+            // console.log(`Server listening to port: ${LOCAL_SERVER_PORT}`);
         });
     })
     .catch((error: any) => {
-        console.log(`Error synchronizing the database: ${error}`);
+        // console.log(`Error synchronizing the database: ${error}`);
     });

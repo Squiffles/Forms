@@ -29,7 +29,7 @@ const getCountryCode = async (_req: Request, res: Response): Promise<any> => {
         });
 
     } catch (error) {
-        console.log(`Error while fetching the IP address: ${error}`);
+        // console.log(`Error while fetching the IP address: ${error}`);
         return res.status(500).json({
             success: false,
             message: `Internal server error: ${error}`

@@ -10,7 +10,7 @@ const getCountryCode = async (): Promise<any> => {
         return data;
 
     } catch (error) {
-        console.log(`Error after attempting to: getCountryCode | CLIENT: ${error}`);
+        // console.log(`Error after attempting to: getCountryCode | CLIENT: ${error}`);
         return {
             success: false
         };

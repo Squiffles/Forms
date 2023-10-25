@@ -38,8 +38,6 @@ const handleInputChange = (event: any, sort: inputField, setAnswer: Function, se
                 break;
         };
 
-
-
         // Perform validation on the updatedAnswer:
         const { errors, requiredFieldsErrors } = validateAnswer(updatedAnswer);
         setErrors(errors);
@@ -50,10 +48,8 @@ const handleInputChange = (event: any, sort: inputField, setAnswer: Function, se
 };
 
 
-const handleSubmit = async (event: any, answer: any, isEditing: boolean, isValid: boolean, sessionId: string, navigate: any) => {
-    event.preventDefault();
-
-    if (isEditing) {
+const handleSubmit = async (answer: any, isEditing: boolean, isValid: boolean, navigate: any, sessionId?: string) => {
+    if (isEditing && sessionId) {
         const parsedSessionId = JSON.parse(sessionId);
 
         const success = await editAnswerByIdRequest(parsedSessionId, answer);
@@ -70,7 +66,7 @@ const handleSubmit = async (event: any, answer: any, isEditing: boolean, isValid
                 // dispatch(setSessionId(response.data.session_id));
                 const sessionId = JSON.stringify(response.data.session_id);
                 localStorage.setItem("sessionId", sessionId);
-                console.log(sessionId);
+                // console.log(sessionId);
             };
         };
     };

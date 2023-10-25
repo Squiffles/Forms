@@ -11,7 +11,7 @@ const getAnswerById = async (req: Request, res: Response) => {
 
         const response = await DB_findAnswerById(sessionId);
 
-        console.log(response);
+        // console.log(response);
 
         if (response.success) {
             // If the the request was successful:

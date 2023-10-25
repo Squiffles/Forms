@@ -20,7 +20,7 @@ const DB_findAllAnswers = async (): Promise<handlerResponseAnswer> => {
 
     } catch (error) {
         // DEV:
-        console.log(`Error while fetching "answers" from the DB: ${error}`);
+        // console.log(`Error while fetching "answers" from the DB: ${error}`);
         throw new Error(`Error while fetching "answers" from the DB: ${error}`);
         // PRODUCTION:
         // return {
@@ -56,7 +56,7 @@ const DB_findAnswerById = async (sessionId: string) => {
 
     } catch (error) {
         // DEV:
-        console.log(`Error while fetching "answers" from the DB: ${error}`);
+        // console.log(`Error while fetching "answers" from the DB: ${error}`);
         throw new Error(`Error while fetching "answers" from the DB: ${error}`);
         // PRODUCTION:
         // return {
@@ -72,7 +72,7 @@ const DB_postAnswer = async (data: Answer) => {
         const ANSWER = db.sequelize.models.Answer;
         const DB_newAnswer = await ANSWER.create(data);
 
-        console.log(DB_newAnswer);
+        // console.log(DB_newAnswer);
 
         return {
             success: true,
@@ -81,7 +81,7 @@ const DB_postAnswer = async (data: Answer) => {
 
     } catch (error) {
         // DEV:
-        console.log(`Error while creating "answer" in the DB: ${error}`);
+        // console.log(`Error while creating "answer" in the DB: ${error}`);
         throw new Error(`Error while creating "answer" in the DB: ${error}`);
         // PRODUCTION:
         // return {
@@ -122,7 +122,7 @@ const DB_editAnswerById = async (sessionId: string, newAnswer: any) => {
 
     } catch (error) {
         // DEV:
-        console.log(`Error while editing "answer" in the DB: ${error}`);
+        // console.log(`Error while editing "answer" in the DB: ${error}`);
         throw new Error(`Error while editing "answer" in the DB: ${error}`);
         // PRODUCTION:
         // return {
