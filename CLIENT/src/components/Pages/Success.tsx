@@ -42,7 +42,7 @@ function Success() {
                     {/* </a> */}
                 </Link>
                 <p className="mt-4 text-[calc(.5rem+1vw+.5vh)] text-justify px-[.5rem]">
-                    You're on time to change your answer. Click above.
+                    You're on time to change your answer. <u>Click above</u>.
                 </p>
             </div>
         </main>
